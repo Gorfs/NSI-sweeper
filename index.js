@@ -27,6 +27,9 @@ function generateGame(height, width, bombs) {
   let x = 0
   let y = 0
 
+  //making a variable for how many bombs are currently on the board
+  let bombsOnBoard = 0
+
   //making the loop that will make all of the columns
   for (let i = 0; i < width; i++) {
     const column = document.createElement("div")
@@ -45,4 +48,8 @@ function generateGame(height, width, bombs) {
     //adding the column element to the actual container
     game_box.push(column)
   }
+
+  //Here needs to be an algorithme to distribute the bombs among the tiles
+  //je pense du genre const squares = document.querySelectorAll("tile")
+  //squares.forEach(button, () => {faire mettres des bombs si la chance est asser bonnes ou chai pas quoi}
 }
