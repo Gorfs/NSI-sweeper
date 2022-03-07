@@ -1,0 +1,8 @@
+.game {
+  /*making this the container for the game*/
+}
+.column {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
