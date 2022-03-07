@@ -43,10 +43,10 @@ function generateGame(height, width, bombs) {
       square.id = String(i, "_", j)
 
       //adding the square to the column element
-      column.push(square)
+      column.appendChild(square)
     }
     //adding the column element to the actual container
-    game_box.push(column)
+    game_box.appendChild(column)
   }
 
   //Here needs to be an algorithme to distribute the bombs among the tiles
