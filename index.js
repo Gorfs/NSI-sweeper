@@ -19,6 +19,7 @@ function num_squares(height, width, px) {
 }
 
 function generateGame(height, width) {
+  // height and width should be in tiles and not in pixels
   //should make all the square and append them to the parent elmt
 
   //making the identifiying "signature of each square"
@@ -30,17 +31,17 @@ function generateGame(height, width) {
   let bombsOnBoard = 0
 
   //making the loop that will make all of the columns
-  for (let i = 0; i < width; i++) {
+  for (let i = 1; i < width + 1; i++) {
     const column = document.createElement("div")
     column.classList.add("column")
     //looping through and making all the square in each column
-    for (let j = 0; j < height; j++) {
+    for (let j = 1; j < height + 1; j++) {
       //making each of the squares that will be appended to the column element
       const square = document.createElement("div")
       square.classList.add("tile")
 
       //adding the x y value to the ID of the square
-      square.id = String(i, "_", j)
+      square.id = i + "_" + j
 
       //adding the square to the column element
       column.appendChild(square)
@@ -51,14 +52,14 @@ function generateGame(height, width) {
 
   //Here needs to be an algorithme to distribute the bombs among the tiles
   const squares = document.querySelectorAll(".tile")
-  squares.forEach(tile, () => {
-    random_num = Math.round(Math.random * 6)
+  console.log(squares)
+  squares.forEach((tile) => {
+    random_num = Math.round(Math.random() * 10)
     if (random_num == 1) {
-      tile.ClassList.add("mine")
+      tile.classList.add("mine")
     }
   })
 }
-
 
 //making the function which will determine the number displayed on the tile if not mine
 //takes in the x and y coords of the tile that is being checked
@@ -74,6 +75,12 @@ function count_mines(x, y) {
   if (checked_tile.classList.includes("mine") == true) {
     //if the mine is the main tile than it returns mine
     return "mine"
+
+    // the tiles are relatively names like this
+    // 3 5 6
+    // 2 m 7
+    // 1 4 8
+    // with m being the main tile
   }
   if (x == game_box_width / tile_pixel_size) {
     //the tile is on the right of the screen
@@ -90,7 +97,6 @@ function count_mines(x, y) {
 
       //gives back the tiles that will be checked
       tiles = [tile_1, tile_1, tile_4]
-
     } else if (y == 0) {
       //the tile is on the bottom and right
 
@@ -102,9 +108,8 @@ function count_mines(x, y) {
 
       let id_5 = "#" + (x - 1).toString + "_" + (y + 1).toString
       const tile_5 = document.querySelector(id_5)
-    
-      tiles = [tile_2, tile_3, tile_5]
 
+      tiles = [tile_2, tile_3, tile_5]
     } else {
       //the tile is on the right but not top of bottom
       let id_1 = "#" + (x - 1).toString + "_" + (y - 1).toString
@@ -121,7 +126,7 @@ function count_mines(x, y) {
 
       let id_5 = "#" + (x - 1).toString + "_" + (y + 1).toString
       const tile_5 = document.querySelector(id_5)
-    
+
       tiles = [tile_1, tile_2, tile_3, tile_4, tile_5]
     }
   }
@@ -139,8 +144,6 @@ function count_mines(x, y) {
       const tile_8 = document.querySelector(id_8)
 
       tiles = [tile_4, tile_7, tile_8]
-      
-
     } else if (y == 0) {
       //the tile is on the bottom and left
 
@@ -154,7 +157,6 @@ function count_mines(x, y) {
       const tile_7 = document.querySelector(id_7)
 
       tiles = [tile_5, tile_6, tile_7]
-
     } else {
       //the tile is on the left but not on a top or bottom bit
       let id_4 = "#" + x.toString + "_" + (y - 1).toString
@@ -173,15 +175,17 @@ function count_mines(x, y) {
       const tile_8 = document.querySelector(id_8)
 
       tiles = [tile_4, tile_6, tile_7, tile_8]
-      
     }
   }
-  
+
   //makign the counting algorithme
   let count = 0
-  for (let i = 0; i < tiles.length; i++){
+  for (let i = 0; i < tiles.length; i++) {
     if (tiles[i].classList.includes("mine")) {
       count = count + 1
     }
-  return count
+    return count
   }
+}
+
+generateGame(10, 10)
