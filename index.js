@@ -1,11 +1,11 @@
 //area where I am going to put my code
-
+console.log("hello world")
 //adding all the DOM elements that I am going to target
 const game_box = document.querySelector(".game")
 
 //getting the height and width of the game area in pixels
-let game_box_width = game_box.clientWidth
-let game_box_height = game_box.clientHeight
+const game_box_width = 9
+const game_box_height = 9
 
 //the size of each tile in pixels\
 //declares in let as it can be changed futher on
@@ -39,6 +39,7 @@ function generateGame(height, width) {
       //making each of the squares that will be appended to the column element
       const square = document.createElement("div")
       square.classList.add("tile")
+      //square.classList.add("hidden")
 
       //adding the x y value to the ID of the square
       square.id = i + "_" + j
@@ -52,140 +53,222 @@ function generateGame(height, width) {
 
   //Here needs to be an algorithme to distribute the bombs among the tiles
   const squares = document.querySelectorAll(".tile")
-  console.log(squares)
+  //("mine maker : ", squares)
   squares.forEach((tile) => {
+    //("mine maker: ", tile.id)
     random_num = Math.round(Math.random() * 10)
     if (random_num == 1) {
       tile.classList.add("mine")
     }
+    let x = tile.id[0]
+    let y = tile.id[2]
   })
 }
 
 //making the function which will determine the number displayed on the tile if not mine
 //takes in the x and y coords of the tile that is being checked
 function count_mines(x, y) {
-  //making the string for the value of the id
-  let id_main = "#" + x.toString + "_" + y.toString
-  const checked_tile = document.querySelector(id)
+  console.log("starting the mine counting function")
+  const tiles = document.querySelectorAll("tile")
+  let tiles_count = []
+  console.log("mine being counted", x, y)
 
-  // the array that will hold all the cubes to actually be checked
-  let tiles = []
+  x = parseInt(x)
+  y = parseInt(y)
+  //tiles are aranged like
+  // 3 5 6
+  // 2 m 7
+  // 1 4 8
 
-  //checking to see if the main boi has a mine
-  if (checked_tile.classList.includes("mine") == true) {
-    //if the mine is the main tile than it returns mine
-    return "mine"
+  //dealing with if the tiles height and width requirements
+  //all this code is basically to only get the elements which are rendered and not imaginary ones
 
-    // the tiles are relatively names like this
-    // 3 5 6
-    // 2 m 7
-    // 1 4 8
-    // with m being the main tile
-  }
-  if (x == game_box_width / tile_pixel_size) {
-    //the tile is on the right of the screen
-    if (y == game_box_height / tile_pixel_size) {
-      //the tile is on the top and the right
-      let id_1 = "#" + (x - 1).toString + "_" + (y - 1).toString
-      const tile_1 = document.querySelector(id_1)
+  if (x > 1 && x < game_box_width && y > 1 && y < game_box_height) {
+    //no limits
+    // no limits whatsoever so just push all of the tiles
+    const tile1_id = (x - 1).toString() + "_" + (y - 1).toString()
+    const tile1 = document.getElementById(tile1_id)
 
-      let id_2 = "#" + (x - 1).toString + "_" + y.toString
-      const tile_2 = document.querySelector(id_2)
+    const tile2_id = (x - 1).toString() + "_" + y.toString()
+    const tile2 = document.getElementById(tile2_id)
 
-      let id_4 = "#" + x.toString + "_" + (y - 1).toString
-      const tile_4 = document.querySelector(id_4)
+    const tile3_id = (x - 1).toString() + "_" + (y + 1).toString()
+    const tile3 = document.getElementById(tile3_id)
 
-      //gives back the tiles that will be checked
-      tiles = [tile_1, tile_1, tile_4]
-    } else if (y == 0) {
-      //the tile is on the bottom and right
+    const tile4_id = x.toString() + "_" + (y - 1).toString()
+    const tile4 = document.getElementById(tile4_id)
 
-      let id_2 = "#" + (x - 1).toString + "_" + y.toString
-      const tile_2 = document.querySelector(id_2)
+    const tile5_id = x.toString() + "_" + (y + 1).toString()
+    const tile5 = document.getAnimations(tile5_id)
 
-      let id_3 = "#" + (x - 1).toString + "_" + (y + 1).toString
-      const tile_3 = document.querySelector(id_3)
+    const tile6_id = (x + 1).toString() + "_" + (y + 1).toString()
+    const tile6 = document.getElementById(tile6_id)
 
-      let id_5 = "#" + (x - 1).toString + "_" + (y + 1).toString
-      const tile_5 = document.querySelector(id_5)
+    const tile7_id = (x + 1).toString() + "_" + y.toString()
+    const tile7 = document.getElementById(tile7_id)
 
-      tiles = [tile_2, tile_3, tile_5]
+    const tile8_id = (x + 1).toString() + "_" + (y - 1).toString()
+    const tile8 = document.getElementById(tile8_id)
+
+    //the mother of all pushes lmao
+    tiles_count.push(
+      tile1_id,
+      tile2_id,
+      tile3_id,
+      tile4_id,
+      tile5_id,
+      tile6_id,
+      tile7_id,
+      tile8_id
+    )
+  } else if (x == 1) {
+    const tile7_id = (x + 1).toString() + "_" + y.toString()
+    const tile7 = document.getElementById(tile7_id)
+
+    tiles_count.push(tile7_id)
+
+    if (y == 1) {
+      // the tile is on the left and on the bottom
+      const tile5_id = x.toString() + "_" + (y + 1).toString()
+      const tile5 = document.getAnimations(tile5_id)
+
+      const tile6_id = (x + 1).toString() + "_" + (y + 1).toString()
+      const tile6 = document.getElementById(tile6_id)
+
+      tiles_count.push(tile5_id, tile6_id)
+    } else if (y == game_box_height) {
+      // the tile is on the top and the left
+      const tile8_id = (x + 1).toString() + "_" + (y - 1).toString()
+      const tile8 = document.getElementById(tile8_id)
+
+      const tile4_id = x.toString() + "_" + (y - 1).toString()
+      const tile4 = document.getElementById(tile4_id)
+
+      tiles_count.push(tile8_id, tile4_id)
     } else {
-      //the tile is on the right but not top of bottom
-      let id_1 = "#" + (x - 1).toString + "_" + (y - 1).toString
-      const tile_1 = document.querySelector(id_1)
+      // on the left with no limits
+      const tile4_id = x.toString() + "_" + (y - 1).toString()
+      const tile4 = document.getElementById(tile4_id)
 
-      let id_2 = "#" + (x - 1).toString + "_" + y.toString
-      const tile_2 = document.querySelector(id_2)
+      const tile5_id = x.toString() + "_" + (y + 1).toString()
+      const tile5 = document.getAnimations(tile5_id)
 
-      let id_3 = "#" + (x - 1).toString + "_" + (y + 1).toString
-      const tile_3 = document.querySelector(id_3)
+      const tile6_id = (x + 1).toString() + "_" + (y + 1).toString()
+      const tile6 = document.getElementById(tile6_id)
 
-      let id_4 = "#" + x.toString + "_" + (y - 1).toString
-      const tile_4 = document.querySelector(id_4)
+      const tile7_id = (x + 1).toString() + "_" + y.toString()
+      const tile7 = document.getElementById(tile7_id)
 
-      let id_5 = "#" + (x - 1).toString + "_" + (y + 1).toString
-      const tile_5 = document.querySelector(id_5)
+      const tile8_id = (x + 1).toString() + "_" + (y - 1).toString()
+      const tile8 = document.getElementById(tile8_id)
 
-      tiles = [tile_1, tile_2, tile_3, tile_4, tile_5]
+      tiles_count.push(tile4_id, tile5_id, tile6_id, tile7_id, tile8_id)
     }
-  }
-  if (x == 0) {
-    //the tile is on the left of the screen
-    if (y == game_box_height / tile_pixel_size) {
-      //the tile is on the top and the left
-      let id_4 = "#" + x.toString + "_" + (y - 1).toString
-      const tile_4 = document.querySelector(id_4)
+  } else if (x == game_box_width) {
+    const tile2_id = (x - 1).toString() + "_" + y.toString()
 
-      let id_7 = "#" + (x + 1).toString + "_" + y.toString
-      const tile_7 = document.querySelector(id_7)
+    tiles_count.push(tile2_id)
+    if (y == game_box_height) {
+      //the tile is in the bottom right
+      const tile2_id = (x - 1).toString() + "_" + y.toString()
+      const tile2 = document.getElementById(tile2_id)
 
-      let id_8 = "#" + (x + 1).toString + "_" + (y - 1).toString
-      const tile_8 = document.querySelector(id_8)
+      const tile3_id = (x - 1).toString() + "_" + (y + 1).toString()
+      const tile3 = document.getElementById(tile3_id)
 
-      tiles = [tile_4, tile_7, tile_8]
-    } else if (y == 0) {
-      //the tile is on the bottom and left
+      const tile4_id = x.toString() + "_" + (y - 1).toString()
+      const tile4 = document.getElementById(tile4_id)
 
-      let id_5 = "#" + (x - 1).toString + "_" + (y + 1).toString
-      const tile_5 = document.querySelector(id_5)
+      const tile5_id = x.toString() + "_" + (y + 1).toString()
+      const tile5 = document.getAnimations(tile5_id)
 
-      let id_6 = "#" + (x + 1).toString + "_" + (y + 1).toString
-      const tile_6 = document.querySelector(id_6)
+      tiles_count.push(tile2_id, tile3_id, tile4_id, tile5_id)
+    } else if (y == 1) {
+      //tile is in the top right
+      const tile1_id = (x - 1).toString() + "_" + (y - 1).toString()
+      const tile1 = document.getElementById(tile1_id)
 
-      let id_7 = "#" + (x + 1).toString + "_" + y.toString
-      const tile_7 = document.querySelector(id_7)
+      const tile2_id = (x - 1).toString() + "_" + y.toString()
+      const tile2 = document.getElementById(tile2_id)
 
-      tiles = [tile_5, tile_6, tile_7]
+      const tile4_id = x.toString() + "_" + (y - 1).toString()
+      const tile4 = document.getElementById(tile4_id)
+
+      tiles_count.push(tile1_id, tile2_id, tile4_id)
     } else {
-      //the tile is on the left but not on a top or bottom bit
-      let id_4 = "#" + x.toString + "_" + (y - 1).toString
-      const tile_4 = document.querySelector(id_4)
+      //the tile is on the right but no limits
+      const tile1_id = (x - 1).toString() + "_" + (y - 1).toString()
+      const tile1 = document.getElementById(tile1_id)
 
-      let id_5 = "#" + (x - 1).toString + "_" + (y + 1).toString
-      const tile_5 = document.querySelector(id_5)
+      const tile2_id = (x - 1).toString() + "_" + y.toString()
+      const tile2 = document.getElementById(tile2_id)
 
-      let id_6 = "#" + (x + 1).toString + "_" + (y + 1).toString
-      const tile_6 = document.querySelector(id_6)
+      const tile3_id = (x - 1).toString() + "_" + (y + 1).toString()
+      const tile3 = document.getElementById(tile3_id)
 
-      let id_7 = "#" + (x + 1).toString + "_" + y.toString
-      const tile_7 = document.querySelector(id_7)
+      const tile4_id = x.toString() + "_" + (y - 1).toString()
+      const tile4 = document.getElementById(tile4_id)
 
-      let id_8 = "#" + (x + 1).toString + "_" + (y - 1).toString
-      const tile_8 = document.querySelector(id_8)
+      const tile5_id = x.toString() + "_" + (y + 1).toString()
+      const tile5 = document.getAnimations(tile5_id)
 
-      tiles = [tile_4, tile_6, tile_7, tile_8]
+      tiles_count.push(tile1_id, tile2_id, tile3_id, tile4_id, tile5_id)
     }
+  } else if (y == 1) {
+    //tile is on the bottom
+    const tile2_id = (x - 1).toString() + "_" + y.toString()
+    const tile2 = document.getElementById(tile2_id)
+
+    const tile3_id = (x - 1).toString() + "_" + (y + 1).toString()
+    const tile3 = document.getElementById(tile3_id)
+
+    const tile5_id = x.toString() + "_" + (y + 1).toString()
+    const tile5 = document.getAnimations(tile5_id)
+
+    const tile6_id = (x + 1).toString() + "_" + (y + 1).toString()
+    const tile6 = document.getElementById(tile6_id)
+
+    const tile7_id = (x + 1).toString() + "_" + y.toString()
+    const tile7 = document.getElementById(tile7_id)
+
+    tiles_count.push(tile2_id, tile3_id, tile5_id, tile6_id, tile7_id)
+  } else {
+    //tile is on the top, no limits
+    const tile1_id = (x - 1).toString() + "_" + (y - 1).toString()
+    const tile1 = document.getElementById(tile1_id)
+
+    const tile2_id = (x - 1).toString() + "_" + y.toString()
+    const tile2 = document.getElementById(tile2_id)
+
+    const tile4_id = x.toString() + "_" + (y - 1).toString()
+    const tile4 = document.getElementById(tile4_id)
+
+    const tile7_id = (x + 1).toString() + "_" + y.toString()
+    const tile7 = document.getElementById(tile7_id)
+
+    const tile8_id = (x + 1).toString() + "_" + (y - 1).toString()
+    const tile8 = document.getElementById(tile8_id)
+
+    tiles_count.push(tile1_id, tile2_id, tile4_id, tile7_id, tile8_id)
   }
 
-  //makign the counting algorithme
-  let count = 0
-  for (let i = 0; i < tiles.length; i++) {
-    if (tiles[i].classList.includes("mine")) {
-      count = count + 1
-    }
-    return count
+  console.log("tiles being tested", tiles_count)
+  for (let k = 0; k < tiles_count.length; k++) {
+    const tile = document.getElementById(tiles_count[k])
+    console.log("reading text content of ", tiles_count[k])
+    num_str = tile.textContent
+    num_int = parseInt(num_str)
+    console.log("trying to pass ", num_int)
+    tile.textContent = num_int
   }
 }
 
-generateGame(10, 10)
+generateGame(9, 9)
+
+const squares = document.querySelectorAll(".tile")
+//"mine maker : ", squares
+squares.forEach((tile) => {
+  if (tile.classList.contains("mine")) {
+    count_mines(tile.id[0], tile.id[2])
+  }
+})
