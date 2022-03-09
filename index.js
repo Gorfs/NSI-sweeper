@@ -6,6 +6,7 @@ const game_box = document.querySelector(".game")
 //getting the height and width of the game area in pixels
 const game_box_width = 9
 const game_box_height = 9
+const mine_proba = 6
 
 //the size of each tile in pixels\
 //declares in let as it can be changed futher on
@@ -40,6 +41,7 @@ function generateGame(height, width) {
       const square = document.createElement("div")
       square.classList.add("tile")
       //square.classList.add("hidden")
+      square.textContent = ""
 
       //adding the x y value to the ID of the square
       square.id = i + "_" + j
@@ -56,7 +58,7 @@ function generateGame(height, width) {
   //("mine maker : ", squares)
   squares.forEach((tile) => {
     //("mine maker: ", tile.id)
-    random_num = Math.round(Math.random() * 10)
+    random_num = Math.round(Math.random() * mine_proba)
     if (random_num == 1) {
       tile.classList.add("mine")
     }
@@ -256,10 +258,20 @@ function count_mines(x, y) {
   for (let k = 0; k < tiles_count.length; k++) {
     const tile = document.getElementById(tiles_count[k])
     console.log("reading text content of ", tiles_count[k])
-    num_str = tile.textContent
-    num_int = parseInt(num_str)
-    console.log("trying to pass ", num_int)
-    tile.textContent = num_int
+    if (tile.classList.contains("mine")) {
+    } else {
+      if (tile.textContent == "") {
+        //if the counter for the current tile is actually at 0
+        let num = 1
+        tile.textContent = num
+      } else {
+        let num_str = tile.textContent
+        console.log("string number ", num_str)
+        let num_int = parseInt(num_str)
+        console.log("trying to pass ", num_int)
+        tile.textContent = num_int + 1
+      }
+    }
   }
 }
 
