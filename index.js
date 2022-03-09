@@ -305,6 +305,21 @@ function add_button(tile) {
     tile.classList.remove("hidden")
     if (tile.textContent == "💣") {
       lose()
+    } else {
+      check_win()
     }
   })
+}
+
+function check_win() {
+  const hiddens = document.querySelectorAll(".hidden")
+  const mines = document.querySelectorAll(".mine")
+  const body = document.querySelector("body")
+  let nb_mines = mines.length
+  let nb_hidden = hiddens.length
+  if (nb_hidden == nb_mines) {
+    // if the amount of tiles on the screen that have no been clicked is equal to the amount of mines
+    body.style["background-color"] = "green"
+    alert("you have won, congrats")
+  }
 }
