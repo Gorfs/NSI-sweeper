@@ -6,6 +6,7 @@ const game_box = document.querySelector(".game")
 //getting the height and width of the game area in pixels
 const game_box_width = 9
 const game_box_height = 9
+//mine proba function the higher the less mines there are
 const mine_proba = 6
 
 //the size of each tile in pixels\
@@ -61,6 +62,7 @@ function generateGame(height, width) {
     random_num = Math.round(Math.random() * mine_proba)
     if (random_num == 1) {
       tile.classList.add("mine")
+      tile.textContent = "💣"
     }
     let x = tile.id[0]
     let y = tile.id[2]
@@ -158,13 +160,10 @@ function count_mines(x, y) {
       const tile6_id = (x + 1).toString() + "_" + (y + 1).toString()
       const tile6 = document.getElementById(tile6_id)
 
-      const tile7_id = (x + 1).toString() + "_" + y.toString()
-      const tile7 = document.getElementById(tile7_id)
-
       const tile8_id = (x + 1).toString() + "_" + (y - 1).toString()
       const tile8 = document.getElementById(tile8_id)
 
-      tiles_count.push(tile4_id, tile5_id, tile6_id, tile7_id, tile8_id)
+      tiles_count.push(tile4_id, tile5_id, tile6_id, tile8_id)
     }
   } else if (x == game_box_width) {
     const tile2_id = (x - 1).toString() + "_" + y.toString()
@@ -202,9 +201,6 @@ function count_mines(x, y) {
       const tile1_id = (x - 1).toString() + "_" + (y - 1).toString()
       const tile1 = document.getElementById(tile1_id)
 
-      const tile2_id = (x - 1).toString() + "_" + y.toString()
-      const tile2 = document.getElementById(tile2_id)
-
       const tile3_id = (x - 1).toString() + "_" + (y + 1).toString()
       const tile3 = document.getElementById(tile3_id)
 
@@ -214,7 +210,7 @@ function count_mines(x, y) {
       const tile5_id = x.toString() + "_" + (y + 1).toString()
       const tile5 = document.getAnimations(tile5_id)
 
-      tiles_count.push(tile1_id, tile2_id, tile3_id, tile4_id, tile5_id)
+      tiles_count.push(tile1_id, tile3_id, tile4_id, tile5_id)
     }
   } else if (y == 1) {
     //tile is on the bottom
@@ -261,6 +257,7 @@ function count_mines(x, y) {
     if (tile.classList.contains("mine")) {
     } else {
       if (tile.textContent == "") {
+        console.log("this is the mine funciont")
         //if the counter for the current tile is actually at 0
         let num = 1
         tile.textContent = num

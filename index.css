@@ -36,7 +36,7 @@ body {
 }
 
 .mine {
-  background-color: red;
+  background-color: transparent;
 }
 .hidden {
   background-color: grey !important;
