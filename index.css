@@ -40,4 +40,5 @@ body {
 }
 .hidden {
   background-color: grey !important;
+  color: transparent;
 }

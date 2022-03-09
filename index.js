@@ -41,6 +41,7 @@ function generateGame(height, width) {
       //making each of the squares that will be appended to the column element
       const square = document.createElement("div")
       square.classList.add("tile")
+      square.classList.add("hidden")
       //square.classList.add("hidden")
       square.textContent = ""
 
@@ -60,6 +61,9 @@ function generateGame(height, width) {
   squares.forEach((tile) => {
     //("mine maker: ", tile.id)
     random_num = Math.round(Math.random() * mine_proba)
+
+    //adding the buttons to the tiles to make it clickable
+    add_button(tile)
     if (random_num == 1) {
       tile.classList.add("mine")
       tile.textContent = "💣"
@@ -281,3 +285,26 @@ squares.forEach((tile) => {
     count_mines(tile.id[0], tile.id[2])
   }
 })
+
+function show_mines() {
+  const mines = document.querySelectorAll(".mine")
+  for (let i = 0; i < mines.length; i++) {
+    mines[i].classList.remove("hidden")
+  }
+}
+
+function lose() {
+  const body = document.querySelector("body")
+  body.style["background-color"] = "red"
+  show_mines()
+  //alert the player that he has lost
+}
+
+function add_button(tile) {
+  tile.addEventListener("click", () => {
+    tile.classList.remove("hidden")
+    if (tile.textContent == "💣") {
+      lose()
+    }
+  })
+}
