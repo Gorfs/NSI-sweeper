@@ -20,8 +20,8 @@ body {
   flex-direction: row;
 }
 .tile {
-  width: 100px;
-  height: 100px;
+  width: 5vw;
+  height: 5vw;
   border: black 1px solid;
   display: flex;
   justify-content: center;

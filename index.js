@@ -175,8 +175,6 @@ function count_mines(x, y) {
     tiles_count.push(tile2_id)
     if (y == game_box_height) {
       //the tile is in the bottom right
-      const tile2_id = (x - 1).toString() + "_" + y.toString()
-      const tile2 = document.getElementById(tile2_id)
 
       const tile3_id = (x - 1).toString() + "_" + (y + 1).toString()
       const tile3 = document.getElementById(tile3_id)
@@ -192,9 +190,6 @@ function count_mines(x, y) {
       //tile is in the top right
       const tile1_id = (x - 1).toString() + "_" + (y - 1).toString()
       const tile1 = document.getElementById(tile1_id)
-
-      const tile2_id = (x - 1).toString() + "_" + y.toString()
-      const tile2 = document.getElementById(tile2_id)
 
       const tile4_id = x.toString() + "_" + (y - 1).toString()
       const tile4 = document.getElementById(tile4_id)
