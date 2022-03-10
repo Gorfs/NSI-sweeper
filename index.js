@@ -73,23 +73,10 @@ function generateGame(height, width) {
   })
 }
 
-//making the function which will determine the number displayed on the tile if not mine
-//takes in the x and y coords of the tile that is being checked
-function count_mines(x, y) {
-  console.log("starting the mine counting function")
-  const tiles = document.querySelectorAll("tile")
+function tilesToCount(x, y){
+  //this function takes the x and y coordanates of a tile and 
+  //returns a list of the ids of the tiles to check for
   let tiles_count = []
-  console.log("mine being counted", x, y)
-
-  x = parseInt(x)
-  y = parseInt(y)
-  //tiles are aranged like
-  // 3 5 6
-  // 2 m 7
-  // 1 4 8
-
-  //dealing with if the tiles height and width requirements
-  //all this code is basically to only get the elements which are rendered and not imaginary ones
 
   if (x > 1 && x < game_box_width && y > 1 && y < game_box_height) {
     //no limits
@@ -248,6 +235,29 @@ function count_mines(x, y) {
 
     tiles_count.push(tile1_id, tile2_id, tile4_id, tile7_id, tile8_id)
   }
+  return tiles_count
+
+}
+
+
+//making the function which will determine the number displayed on the tile if not mine
+//takes in the x and y coords of the tile that is being checked
+function count_mines(x, y) {
+  console.log("starting the mine counting function")
+  const tiles = document.querySelectorAll("tile")
+
+  console.log("mine being counted", x, y)
+
+  x = parseInt(x)
+  y = parseInt(y)
+  //tiles are aranged like
+  // 3 5 6
+  // 2 m 7
+  // 1 4 8
+
+  //dealing with if the tiles height and width requirements
+  //all this code is basically to only get the elements which are rendered and not imaginary ones
+  const tiles_count = tilesToCount(x, y)
 
   console.log("tiles being tested", tiles_count)
   for (let k = 0; k < tiles_count.length; k++) {
@@ -271,8 +281,12 @@ function count_mines(x, y) {
   }
 }
 
+
+//all this stuff happens when the game has already launched, this is the execution section if you will
+
 generateGame(9, 9)
 
+//this adds the numbers to all the mines, this should be done on the first click.
 const squares = document.querySelectorAll(".tile")
 //"mine maker : ", squares
 squares.forEach((tile) => {
@@ -281,7 +295,10 @@ squares.forEach((tile) => {
   }
 })
 
+
+
 function show_mines() {
+  //func used to display all the mines on the board, often used at lose state.
   const mines = document.querySelectorAll(".mine")
   for (let i = 0; i < mines.length; i++) {
     mines[i].classList.remove("hidden")
@@ -289,6 +306,7 @@ function show_mines() {
 }
 
 function lose() {
+  //the function that is called if the player loses
   const body = document.querySelector("body")
   body.style["background-color"] = "red"
   show_mines()
@@ -296,6 +314,7 @@ function lose() {
 }
 
 function add_button(tile) {
+  //take a DOM object and add a button to that tile and giving it a function
   tile.addEventListener("click", () => {
     tile.classList.remove("hidden")
     if (tile.textContent == "💣") {
@@ -307,6 +326,8 @@ function add_button(tile) {
 }
 
 function check_win() {
+  //function played every time a tile is clicked, if conditions are meant than 
+  //the player has won.
   const hiddens = document.querySelectorAll(".hidden")
   const mines = document.querySelectorAll(".mine")
   const body = document.querySelector("body")
@@ -318,3 +339,5 @@ function check_win() {
     alert("you have won, congrats")
   }
 }
+
+
