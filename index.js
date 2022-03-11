@@ -288,11 +288,13 @@ function count_mines(x, y) {
 function explodeTiles(x,y){
   //should recursively show the tiles that are empty that are next to eachother
   //if the function is called the tile being passed should already be empty
+  console.log("exploding these tiles = " , x, "_" , y)
 
   //declaring the tiles that is being tested
   const mainTile_id = x + "_" + y
-  console.log(mainTile_id)
+
   const mainTile = document.getElementById(mainTile_id)
+
   console.log("main tile = ", mainTile , mainTile_id)
   console.log(mainTile.classList)
 
@@ -300,17 +302,28 @@ function explodeTiles(x,y){
   mainTile.classList.remove("hidden")
 
   //finding the mines next to the main tile
-  const tilesSurrounding = tilesToCount(parseInt(x), parseInt(y))
+  let tilesSurrounding = tilesToCount(parseInt(x), parseInt(y))
+
+
   console.log(tilesSurrounding)
   for (let i = 0; i<tilesSurrounding.length;i++){
     console.log("checking this tile:", tilesSurrounding[i])
+    
     tileChecking = document.getElementById(tilesSurrounding[i])
-    if (tileChecking.textContent == ""){
+    console.log("checking this tile for existance " , tileChecking , "should be " , tilesSurrounding[i])
+    //checking to see if it's a reapeat
+    if(tileChecking.id = mainTile.id){
+      //do nothing since is repeat
+    }else{
+      //is not repeat
+      if (tileChecking.textContent == ""){
       // the tile being checked is empty
       explodeTiles(parseInt(tileChecking.id[0]), parseInt(tileChecking.id[2]))
     }else{
       // the tile being checked has something in it so it is not empty
     }
+    }
+    
   }
 
 
