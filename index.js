@@ -65,15 +65,19 @@ function generateGame(height, width) {
 
 function addMines(x, y){
   //function that is called on first click that adds mines except where the player has played
+  console.log("should  be adding the mines now")
   const tiles = document.querySelectorAll(".tile")
   tiles.forEach((tile) => {
-    let random_num = Math.round(Math.random * mine_proba)
+    console.log(tile)
+    let random_num = Math.round(Math.random() * mine_proba)
+    console.log(random_num)
 
     //testing to make the probability work
     if (random_num == 0 && tile.id[0] != x && tile.id[2] != y){
       //putting a tile on the board
       tile.classList.add("mine")
       tile.textContent = "💣"
+      count_mines(parseInt(tile.id[0]) , parseInt(tile.id[2]))
     }
   })
 }
@@ -288,56 +292,60 @@ function count_mines(x, y) {
 }
 
 //I am going to attempt to make a function that recursively removes the fake tiles
-function explodeTiles(x,y, oldx, oldy){
+function explodeTiles(x,y){
   //should recursively show the tiles that are empty that are next to eachother
-  //if the function is called the tile being passed should already be empty
   console.log("exploding these tiles = " , x, "_" , y)
 
   //declaring the tiles that is being tested
   const mainTile_id = x + "_" + y
-  oldId = oldx + "_" + oldy
-  const oldTile = document.getElementById(oldId)
-  console.log(oldTile)
+
 
   const mainTile = document.getElementById(mainTile_id)
 
-  console.log("main tile = ", mainTile , mainTile_id)
-  console.log(mainTile.classList)
-
-  //removing the hidden effect
-  mainTile.classList.remove("hidden")
-
-  //finding the mines next to the main tile
-  let tilesSurrounding = tilesToCount(parseInt(x), parseInt(y))
-
-
-  console.log(tilesSurrounding)
-  for (let i = 0; i < tilesSurrounding.length; i++){
-    console.log("checking this tile:", tilesSurrounding[i])
-    console.log("tiles to count = " , tilesSurrounding , "and I = " , i)
- 
-    
-    let tileChecking = document.getElementById(tilesSurrounding[i])
-    console.log("checking this tile for existance " , tileChecking , "should be " , tilesSurrounding[i])
-    //checking to see if it's a reapeat
-    console.log(tileChecking.id, mainTile.id)
-    if(tileChecking.id == oldId){ 
-      //do nothing since is repeat
+  if(mainTile.textContent != ""){
+    // the tile is not empty
+  }else{
+    if (isIn(mainTile_id , checkedTiles)){
+      // then it is duplicate
+      //do nothing here
     }else{
-      //is not repeat
-      if (tileChecking.textContent == ""){
+      // should not be duplicate, gets the go ahead
+    console.log("main tile = ", mainTile , mainTile_id)
+    console.log(mainTile.classList)
+  
+    //removing the hidden effect
+    mainTile.classList.remove("hidden")
+    checkedTiles.push(mainTile.id)
+  
+    //finding the mines next to the main tile
+    let tilesSurrounding = tilesToCount(parseInt(x), parseInt(y))
+  
+  
+    for (let i = 0; i < tilesSurrounding.length; i++){
+      console.log("checking this tile:", tilesSurrounding[i])
+      console.log("tiles to count = " , tilesSurrounding , "and I = " , i)
+   
+      
+      let tileChecking = document.getElementById(tilesSurrounding[i])
+      console.log("checking this tile for existance " , tileChecking , "should be " , tilesSurrounding[i])
+      //checking to see if it's a reapeat
+      console.log(tileChecking.id, mainTile.id)
       // the tile being checked is empty
       explodeTiles(parseInt(tileChecking.id[0]), parseInt(tileChecking.id[2]), parseInt(mainTile_id[0]), parseInt(mainTile_id[2]))
-    }else{
-      // the tile being checked has something in it so it is not empty
-    }
-    }
     
+      }
+    }
+  }  
+}
+
+function isIn (elmt, list){
+  //returns true if elemt is in an array
+  for(let i = 0; i<list.length;i++){
+    if (elmt == list[i]){
+      return true
+    }
   }
-
-
-
-
+  return false
 }
 
 //all this stuff happens when the game has already launched, this is the execution section if you will
@@ -399,7 +407,7 @@ function add_button(tile) {
       //explode the tile lol
       let idx = parseInt(tile.id[0])
       let idy = parseInt(tile.id[2])
-      explodeTiles(tile.id[0], tile.id[2])
+      explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
     }
     if (tile.textContent == "💣") {
       lose()
@@ -411,6 +419,7 @@ function add_button(tile) {
 
 function firstClick(x, y){
   //section about the first click
+  console.log("this is the first click")
     addMines(x, y)
 }
 
