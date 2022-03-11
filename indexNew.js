@@ -7,13 +7,16 @@ console.log("Hello there, my name is indexNew.JS")
 
 //declaration of all the things I need to start the functions
 const game_box = document.querySelector(".game")
+const body = document.querySelector("body")
 //the height and width of the minesweeper game in the number of tiles
 //for now the game will be locked at 9x9 squares
 const game_box_width = 9
 const game_box_height = 9
 //The probability that mines will spawn
 const mine_proba = 6
-
+let recentTile = ""
+let explodedTiles = []
+const maxExplode = 2
 //Here will be the functions for when a player wins and loses the game
 function win() {
   body.style["background-color"] = "green"
@@ -24,6 +27,8 @@ function win() {
 }
 
 function lose() {
+  console.log("you have lost")
+  showMines()
   body.style["background-color"] = "red"
   alert("you have lost")
   //need to put in place a timer that will end here:
@@ -72,10 +77,24 @@ function generateGame() {
       let numTiles = game_box_height * game_box_width
       const hidden = document.querySelectorAll(".hidden")
 
+      //sets the most recent Tile that has been pressed
+      recentTile = tile.id
+
+      if (check_win() == true) {
+        //the player has won the game
+        win()
+      } else if (tile.textContent == "💣") {
+        lose()
+      }
+
       if (hidden.length == numTiles - 1) {
         //the first click has been detected
         console.log("is the first click")
         addMines(parseInt(tile.id[0]), parseInt(tile.id[2]))
+      }
+
+      if (tile.textContent == "") {
+        explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
       }
     })
   })
@@ -163,6 +182,42 @@ function tilesToCount(x, y) {
   return result
 }
 
+function explodeTiles(x, y) {
+  //takes in two INTEGERS, recursively destroyes tiles that are around it
+  const mainTile_Id = x.toString() + "_" + y.toString()
+  const mainTile = document.getElementById(mainTile_Id)
+  if (
+    isIn(mainTile_Id, explodedTiles) == false &&
+    distance(parseInt(recentTile[0]), parseInt(mainTile_Id[0])) < maxExplode &&
+    distance(parseInt(recentTile[2]), parseInt(mainTile_Id[2])) < maxExplode
+  ) {
+    //this tile has not been dealth with
+    if (mainTile.textContent == "") {
+      mainTile.classList.remove("hidden")
+    }
+    explodedTiles.push(mainTile_Id)
+    surroudingTiles = tilesToCount(
+      parseInt(mainTile_Id[0]),
+      parseInt(mainTile_Id[2])
+    )
+    for (let k = 0; k < surroudingTiles.length; k++) {
+      explodeTiles(
+        parseInt(surroudingTiles[k][0]),
+        parseInt(surroudingTiles[k][2])
+      )
+    }
+  }
+}
+
+function showMines() {
+  //shows all the mines on the board
+  console.log("showing mines")
+  const mines = document.querySelectorAll(".mine")
+  mines.forEach((mine) => {
+    mine.classList.remove("hidden")
+  })
+}
+
 //alternate functions usded for small calculations:---------
 function distance(a, b) {
   //gives back the distance between 2 tiles
@@ -173,6 +228,25 @@ function distance(a, b) {
   } else {
     return 0
   }
+}
+function check_win() {
+  //return true if all the tiles except the mines are uncovered
+  console.log("checking for win ....")
+  hidden = document.querySelectorAll(".hidden")
+  mines = document.querySelectorAll(".mine")
+  if (hidden.length == mines.length) {
+    return true
+  } else {
+    return false
+  }
+}
+function isIn(elmt, lst) {
+  for (let i = 0; i < lst.length; i++) {
+    if (lst[i] == elmt) {
+      return true
+    }
+  }
+  return false
 }
 
 generateGame()

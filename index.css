@@ -27,6 +27,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 3.4vw;
+  background-color: aliceblue;
 }
 .column {
   height: 100%;
@@ -36,7 +37,7 @@ body {
 }
 
 .mine {
-  background-color: transparent;
+  background-color: aliceblue;
 }
 .hidden {
   background-color: grey !important;
