@@ -13,6 +13,9 @@ const mine_proba = 6
 //declares in let as it can be changed futher on
 let tile_pixel_size = 50
 
+//this to see all the tiles that have been couted by the explode tiles function
+let checkedTiles = []
+
 //calculate how many square I can make
 function num_squares(height, width, px) {
   //should return an array with the first elmt being and amount of square on the height and the second being the amount of squares on the width based on the px amount listed
@@ -285,13 +288,16 @@ function count_mines(x, y) {
 }
 
 //I am going to attempt to make a function that recursively removes the fake tiles
-function explodeTiles(x,y){
+function explodeTiles(x,y, oldx, oldy){
   //should recursively show the tiles that are empty that are next to eachother
   //if the function is called the tile being passed should already be empty
   console.log("exploding these tiles = " , x, "_" , y)
 
   //declaring the tiles that is being tested
   const mainTile_id = x + "_" + y
+  oldId = oldx + "_" + oldy
+  const oldTile = document.getElementById(oldId)
+  console.log(oldTile)
 
   const mainTile = document.getElementById(mainTile_id)
 
@@ -306,19 +312,22 @@ function explodeTiles(x,y){
 
 
   console.log(tilesSurrounding)
-  for (let i = 0; i<tilesSurrounding.length;i++){
+  for (let i = 0; i < tilesSurrounding.length; i++){
     console.log("checking this tile:", tilesSurrounding[i])
+    console.log("tiles to count = " , tilesSurrounding , "and I = " , i)
+ 
     
-    tileChecking = document.getElementById(tilesSurrounding[i])
+    let tileChecking = document.getElementById(tilesSurrounding[i])
     console.log("checking this tile for existance " , tileChecking , "should be " , tilesSurrounding[i])
     //checking to see if it's a reapeat
-    if(tileChecking.id = mainTile.id){
+    console.log(tileChecking.id, mainTile.id)
+    if(tileChecking.id == oldId){ 
       //do nothing since is repeat
     }else{
       //is not repeat
       if (tileChecking.textContent == ""){
       // the tile being checked is empty
-      explodeTiles(parseInt(tileChecking.id[0]), parseInt(tileChecking.id[2]))
+      explodeTiles(parseInt(tileChecking.id[0]), parseInt(tileChecking.id[2]), parseInt(mainTile_id[0]), parseInt(mainTile_id[2]))
     }else{
       // the tile being checked has something in it so it is not empty
     }
