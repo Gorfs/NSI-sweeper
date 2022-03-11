@@ -15,7 +15,7 @@ body {
   /*making this the container for the game*/
   height: 100%;
   width: fit-content;
-  background-color: blanchedalmond;
+  background-color: inherit;
   display: flex;
   flex-direction: row;
 }
