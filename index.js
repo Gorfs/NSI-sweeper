@@ -249,6 +249,17 @@ function tilesToCount(x, y){
 
 }
 
+function distance(a,b){
+  //gives back the distance between 2 tiles
+  if(a > b){
+    return a-b
+  }else if(b > a){
+    return b-a
+  }else{
+    return 0
+  }
+}
+
 
 //making the function which will determine the number displayed on the tile if not mine
 //takes in the x and y coords of the tile that is being checked
@@ -302,7 +313,7 @@ function explodeTiles(x,y){
 
   const mainTile = document.getElementById(mainTile_id)
 
-  if(mainTile.textContent != ""){
+  if(mainTile.textContent != "" || distance(parseInt(mainTile.id[0]) , parseInt(mainTile.id[2])) < 3 ){
     // the tile is not empty
   }else{
     if (isIn(mainTile_id , checkedTiles)){
