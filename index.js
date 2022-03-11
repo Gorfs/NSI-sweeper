@@ -340,7 +340,7 @@ function explodeTiles(x,y){
       let tileChecking = document.getElementById(tilesSurrounding[i])
       console.log("checking this tile for existance " , tileChecking , "should be " , tilesSurrounding[i])
       //checking to see if it's a reapeat
-      console.log(tileChecking.id, mainTile.id)
+      
       // the tile being checked is empty
       explodeTiles(parseInt(tileChecking.id[0]), parseInt(tileChecking.id[2]), parseInt(mainTile_id[0]), parseInt(mainTile_id[2]))
     
