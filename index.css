@@ -27,6 +27,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 50px;
+  user-select: none;
 }
 .column {
   height: 100%;
