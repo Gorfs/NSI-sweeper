@@ -15,19 +15,22 @@ body {
   /*making this the container for the game*/
   height: 100%;
   width: fit-content;
-  background-color: blanchedalmond;
+  background-color: inherit;
   display: flex;
   flex-direction: row;
 }
 .tile {
-  width: 100px;
-  height: 100px;
+  width: 5vw;
+  height: 5vw;
   border: black 1px solid;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 50px;
-  user-select: none;
+
+=======
+  font-size: 3.4vw;
+  background-color: aliceblue;
+>>>>>>> reWrite
 }
 .column {
   height: 100%;
@@ -37,7 +40,7 @@ body {
 }
 
 .mine {
-  background-color: transparent;
+  background-color: aliceblue;
 }
 .hidden {
   background-color: grey !important;

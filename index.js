@@ -13,6 +13,9 @@ const mine_proba = 6
 //declares in let as it can be changed futher on
 let tile_pixel_size = 50
 
+//this to see all the tiles that have been couted by the explode tiles function
+let checkedTiles = []
+
 //calculate how many square I can make
 function num_squares(height, width, px) {
   //should return an array with the first elmt being and amount of square on the height and the second being the amount of squares on the width based on the px amount listed
@@ -28,9 +31,6 @@ function generateGame(height, width) {
   //ici va etre les coordonner que on va devoir utiliser pour le bot
   let x = 0
   let y = 0
-
-  //making a variable for how many bombs are currently on the board
-  let bombsOnBoard = 0
 
   //making the loop that will make all of the columns
   for (let i = 1; i < width + 1; i++) {
@@ -55,41 +55,37 @@ function generateGame(height, width) {
     game_box.appendChild(column)
   }
 
-  //Here needs to be an algorithme to distribute the bombs among the tiles
   const squares = document.querySelectorAll(".tile")
-  //("mine maker : ", squares)
-  squares.forEach((tile) => {
-    //("mine maker: ", tile.id)
-    random_num = Math.round(Math.random() * mine_proba)
 
-    //adding the buttons to the tiles to make it clickable
+  squares.forEach((tile) => {
+    //looping for adding the buttons to the tiles to make it clickable
     add_button(tile)
-    if (random_num == 1) {
-      tile.classList.add("mine")
-      tile.textContent = "💣"
-    }
-    let x = tile.id[0]
-    let y = tile.id[2]
   })
 }
 
-//making the function which will determine the number displayed on the tile if not mine
-//takes in the x and y coords of the tile that is being checked
-function count_mines(x, y) {
-  console.log("starting the mine counting function")
-  const tiles = document.querySelectorAll("tile")
+function addMines(x, y) {
+  //function that is called on first click that adds mines except where the player has played
+  console.log("should  be adding the mines now")
+  const tiles = document.querySelectorAll(".tile")
+  tiles.forEach((tile) => {
+    console.log(tile)
+    let random_num = Math.round(Math.random() * mine_proba)
+    console.log(random_num)
+
+    //testing to make the probability work
+    if (random_num == 0 && tile.id[0] != x && tile.id[2] != y) {
+      //putting a tile on the board
+      tile.classList.add("mine")
+      tile.textContent = "💣"
+      count_mines(parseInt(tile.id[0]), parseInt(tile.id[2]))
+    }
+  })
+}
+
+function tilesToCount(x, y) {
+  //this function takes the x and y coordanates of a tile and
+  //returns a list of the ids of the tiles to check for
   let tiles_count = []
-  console.log("mine being counted", x, y)
-
-  x = parseInt(x)
-  y = parseInt(y)
-  //tiles are aranged like
-  // 3 5 6
-  // 2 m 7
-  // 1 4 8
-
-  //dealing with if the tiles height and width requirements
-  //all this code is basically to only get the elements which are rendered and not imaginary ones
 
   if (x > 1 && x < game_box_width && y > 1 && y < game_box_height) {
     //no limits
@@ -175,8 +171,6 @@ function count_mines(x, y) {
     tiles_count.push(tile2_id)
     if (y == game_box_height) {
       //the tile is in the bottom right
-      const tile2_id = (x - 1).toString() + "_" + y.toString()
-      const tile2 = document.getElementById(tile2_id)
 
       const tile3_id = (x - 1).toString() + "_" + (y + 1).toString()
       const tile3 = document.getElementById(tile3_id)
@@ -192,9 +186,6 @@ function count_mines(x, y) {
       //tile is in the top right
       const tile1_id = (x - 1).toString() + "_" + (y - 1).toString()
       const tile1 = document.getElementById(tile1_id)
-
-      const tile2_id = (x - 1).toString() + "_" + y.toString()
-      const tile2 = document.getElementById(tile2_id)
 
       const tile4_id = x.toString() + "_" + (y - 1).toString()
       const tile4 = document.getElementById(tile4_id)
@@ -253,6 +244,39 @@ function count_mines(x, y) {
 
     tiles_count.push(tile1_id, tile2_id, tile4_id, tile7_id, tile8_id)
   }
+  return tiles_count
+}
+
+function distance(a, b) {
+  //gives back the distance between 2 tiles
+  if (a > b) {
+    return a - b
+  } else if (b > a) {
+    return b - a
+  } else {
+    return 0
+  }
+}
+
+//making the function which will determine the number displayed on the tile if not mine
+//takes in the x and y coords of the tile that is being checked
+function count_mines(x, y) {
+  console.log("starting the mine counting function")
+  const tiles = document.querySelectorAll("tile")
+
+  console.log("mine being counted", x, y)
+
+  x = parseInt(x)
+  y = parseInt(y)
+  //tiles are aranged like
+  // 3 5 6
+  // 2 m 7
+  // 1 4 8
+
+  //dealing with if the tiles height and width requirements
+  //all this code is basically to only get the elements which are rendered and not imaginary ones
+  const tiles_count = tilesToCount(x, y)
+  console.log(tiles_count)
 
   console.log("tiles being tested", tiles_count)
   for (let k = 0; k < tiles_count.length; k++) {
@@ -276,8 +300,77 @@ function count_mines(x, y) {
   }
 }
 
+//I am going to attempt to make a function that recursively removes the fake tiles
+function explodeTiles(x, y) {
+  //should recursively show the tiles that are empty that are next to eachother
+  console.log("exploding these tiles = ", x, "_", y)
+
+  //declaring the tiles that is being tested
+  const mainTile_id = x + "_" + y
+
+  const mainTile = document.getElementById(mainTile_id)
+
+  if (
+    mainTile.textContent != "" ||
+    distance(parseInt(mainTile.id[0]), parseInt(mainTile.id[2])) < 3
+  ) {
+    // the tile is not empty
+  } else {
+    if (isIn(mainTile_id, checkedTiles)) {
+      // then it is duplicate
+      //do nothing here
+    } else {
+      // should not be duplicate, gets the go ahead
+      console.log("main tile = ", mainTile, mainTile_id)
+      console.log(mainTile.classList)
+
+      //removing the hidden effect
+      mainTile.classList.remove("hidden")
+      checkedTiles.push(mainTile.id)
+
+      //finding the mines next to the main tile
+      let tilesSurrounding = tilesToCount(parseInt(x), parseInt(y))
+
+      for (let i = 0; i < tilesSurrounding.length; i++) {
+        console.log("checking this tile:", tilesSurrounding[i])
+        console.log("tiles to count = ", tilesSurrounding, "and I = ", i)
+
+        let tileChecking = document.getElementById(tilesSurrounding[i])
+        console.log(
+          "checking this tile for existance ",
+          tileChecking,
+          "should be ",
+          tilesSurrounding[i]
+        )
+        //checking to see if it's a reapeat
+
+        // the tile being checked is empty
+        explodeTiles(
+          parseInt(tileChecking.id[0]),
+          parseInt(tileChecking.id[2]),
+          parseInt(mainTile_id[0]),
+          parseInt(mainTile_id[2])
+        )
+      }
+    }
+  }
+}
+
+function isIn(elmt, list) {
+  //returns true if elemt is in an array
+  for (let i = 0; i < list.length; i++) {
+    if (elmt == list[i]) {
+      return true
+    }
+  }
+  return false
+}
+
+//all this stuff happens when the game has already launched, this is the execution section if you will
+
 generateGame(9, 9)
 
+//this adds the numbers to all the mines, this should be done on the first click.
 const squares = document.querySelectorAll(".tile")
 //"mine maker : ", squares
 squares.forEach((tile) => {
@@ -287,6 +380,7 @@ squares.forEach((tile) => {
 })
 
 function show_mines() {
+  //func used to display all the mines on the board, often used at lose state.
   const mines = document.querySelectorAll(".mine")
   for (let i = 0; i < mines.length; i++) {
     mines[i].classList.remove("hidden")
@@ -294,6 +388,7 @@ function show_mines() {
 }
 
 function lose() {
+  //the function that is called if the player loses
   const body = document.querySelector("body")
   body.style["background-color"] = "red"
   show_mines()
@@ -301,8 +396,34 @@ function lose() {
 }
 
 function add_button(tile) {
+  //take a DOM object and add a button to that tile and giving it a function
+
   tile.addEventListener("click", () => {
+    // what happens when you click on a square
     tile.classList.remove("hidden")
+
+    //tries to detech first click
+    let numTotal = 9 * 9
+    let numTiles = 0
+    //counting all the tiles to try and find them all
+    const hiddenTiles = document.querySelectorAll(".hidden")
+    hiddenTiles.forEach((hidden) => {
+      numTiles = numTiles + 1
+    })
+
+    if (numTiles == numTotal - 1) {
+      //the first click has been detected
+      let idx = parseInt(tile.id[0])
+      let idy = parseInt(tile.id[2])
+      firstClick(idx, idy)
+    }
+    //bit about exploding the tiles
+    if (tile.textContent == "") {
+      //explode the tile lol
+      let idx = parseInt(tile.id[0])
+      let idy = parseInt(tile.id[2])
+      explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
+    }
     if (tile.textContent == "💣") {
       lose()
     } else {
@@ -311,7 +432,15 @@ function add_button(tile) {
   })
 }
 
+function firstClick(x, y) {
+  //section about the first click
+  console.log("this is the first click")
+  addMines(x, y)
+}
+
 function check_win() {
+  //function played every time a tile is clicked, if conditions are meant than
+  //the player has won.
   const hiddens = document.querySelectorAll(".hidden")
   const mines = document.querySelectorAll(".mine")
   const body = document.querySelector("body")
