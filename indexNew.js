@@ -7,7 +7,7 @@ console.log("Hello there, my name is indexNew.JS")
 
 //declaration of all the things I need to start the functions
 const game_box = document.querySelector(".game")
-const body = document.querySelector("body")
+const body = document.querySelector(".game-area")
 //the height and width of the minesweeper game in the number of tiles
 //for now the game will be locked at 9x9 squares
 const game_box_width = 9
@@ -29,12 +29,41 @@ function win() {
 function lose() {
   console.log("you have lost")
   showMines()
-  body.style["background-color"] = "red"
+  body.classList.add("lost")
   alert("you have lost")
-  //need to put in place a timer that will end here:
+  const hidden = document.querySelectorAll(".hidden")
+  hidden.forEach((tile) => {
+    tile.removeEventListener("click", () => {
+      tile.classList.remove("hidden")
+      //the number of tiles total
+      let numTiles = game_box_height * game_box_width
+      const hidden = document.querySelectorAll(".hidden")
 
-  //extra styles for the win need to go here:
+      //sets the most recent Tile that has been pressed
+      recentTile = tile.id
+
+      if (check_win() == true) {
+        //the player has won the game
+        win()
+      } else if (tile.textContent == "💣") {
+        lose()
+      }
+
+      if (hidden.length == numTiles - 1) {
+        //the first click has been detected
+        console.log("is the first click")
+        addMines(parseInt(tile.id[0]), parseInt(tile.id[2]))
+      }
+
+      if (tile.textContent == "") {
+        explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
+      }
+    })
+  })
 }
+//need to put in place a timer that will end here:
+
+//extra styles for the win need to go here:
 
 //HERE are the functions used for generating the game, the number, the mines etc....--------------
 
