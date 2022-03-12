@@ -17,10 +17,16 @@ const mine_proba = 6
 let recentTile = ""
 let explodedTiles = []
 const maxExplode = 2
+//elapsed time is counted in seconds
+let elapsedTime = 0
+let timer = false
+let clicked = false
+
 //Here will be the functions for when a player wins and loses the game
 function win() {
   body.style["background-color"] = "green"
   alert("you have won, congrats")
+  const time = Date.now() - start
   //need to put in place a timer that will end here:
 
   //extra styles for the lost need to go here:
@@ -116,14 +122,16 @@ function generateGame() {
         lose()
       }
 
-      if (hidden.length == numTiles - 1) {
+      if (hidden.length == numTiles - 1 && clicked == false) {
+        clicked = true
         //the first click has been detected
         console.log("is the first click")
         addMines(parseInt(tile.id[0]), parseInt(tile.id[2]))
-      }
+        const start = Date.now()
 
-      if (tile.textContent == "") {
-        explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
+        if (tile.textContent == "") {
+          explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
+        }
       }
     })
   })
@@ -245,6 +253,30 @@ function showMines() {
   mines.forEach((mine) => {
     mine.classList.remove("hidden")
   })
+}
+
+function addSecond() {
+  //adds 1 second to the timer
+  console.log("adding a second")
+  elapsedTime = elapsedTime + 1
+  const minute_timer = document.querySelector("#minute__timer")
+  const second_timer = document.querySelector("#second__timer")
+
+  let minutes = parseInt(minute_timer.textContent)
+  let seconds = parseInt(second_timer.textContent)
+  console.log(minute_timer, second_timer, minutes, seconds)
+  if (seconds > 60) {
+    minutes = minutes + 1
+    minute_timer.textContent = minutes
+    seconds = 0
+    second_timer.textContent = 0
+  } else {
+    if (seconds < 10) {
+      " 0" + seconds.toString()
+    }
+    seconds = seconds + 1
+    second_timer.textContent = seconds
+  }
 }
 
 //alternate functions usded for small calculations:---------
