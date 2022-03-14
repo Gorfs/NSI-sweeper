@@ -3,15 +3,15 @@
 //All code shown here is property of Archie Beales
 
 //this is the intro section, here is code made to make sure that the file is not corrupt
-console.log("Hello there, my name is indexNew.JS")
+//console.log("Hello there, my name is indexNew.JS")
 
 //declaration of all the things I need to start the functions
 const game_box = document.querySelector(".game")
 const body = document.querySelector(".game-area")
 //the height and width of the minesweeper game in the number of tiles
 //for now the game will be locked at 9x9 squares
-const game_box_width = 9
-const game_box_height = 9
+const game_box_width = 10000
+const game_box_height = 10000
 //The probability that mines will spawn
 const mine_proba = 6
 let recentTile = ""
@@ -22,18 +22,24 @@ let elapsedTime = 0
 let timer = false
 let clicked = false
 
+/* variables for the timer */
+let min = 0
+let sec = 0
+let hr = 0
+let stoptime = true
+
 //Here will be the functions for when a player wins and loses the game
 function win() {
   body.style["background-color"] = "green"
   alert("you have won, congrats")
-  const time = Date.now() - start
+  stopTimer()
   //need to put in place a timer that will end here:
 
   //extra styles for the lost need to go here:
 }
 
 function lose() {
-  console.log("you have lost")
+  //console.log("you have lost")
   showMines()
   body.classList.add("lost")
   alert("you have lost")
@@ -57,7 +63,7 @@ function lose() {
 
       if (hidden.length == numTiles - 1) {
         //the first click has been detected
-        console.log("is the first click")
+        //console.log("is the first click")
         addMines(parseInt(tile.id[0]), parseInt(tile.id[2]))
       }
 
@@ -66,6 +72,7 @@ function lose() {
       }
     })
   })
+  stopTimer()
 }
 //need to put in place a timer that will end here:
 
@@ -75,7 +82,7 @@ function lose() {
 
 function generateGame() {
   // this function will be used to do A LOT of the generation for the game, including all the buttons and all that
-  console.log("Generating the game now...")
+  //console.log("Generating the game now...")
   //the loop that makes the columns
   for (let i = 1; i < game_box_width + 1; i++) {
     //makes the column div
@@ -127,7 +134,7 @@ function generateGame() {
         //the first click has been detected
         console.log("is the first click")
         addMines(parseInt(tile.id[0]), parseInt(tile.id[2]))
-        const start = Date.now()
+        startTimer()
 
         if (tile.textContent == "") {
           explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
@@ -139,7 +146,7 @@ function generateGame() {
 
 function addMines(x, y) {
   //this function generates mines all around apart from the tiles whos ids are in parameters
-  console.log("adding all the mines now...")
+  //console.log("adding all the mines now...")
   const tiles = document.querySelectorAll(".tile")
   const noTouchId = x.toString() + "_" + y.toString()
   tiles.forEach((tile) => {
@@ -159,18 +166,18 @@ function addMines(x, y) {
 function count_mines(x, y) {
   //when called, takes all the tiles around the one given in parameter and add 1 to each of the text contents
 
-  console.log("starting the mine counting function")
-  console.log("mine being counted", x, y)
+  //console.log("starting the mine counting function")
+  //console.log("mine being counted", x, y)
 
   //gets the list of tiles available around the mine
   const tiles_count = tilesToCount(x, y)
-  console.log(tiles_count)
+  //console.log(tiles_count)
 
   //loop to go through each tile to add 1 to
   for (let k = 0; k < tiles_count.length; k++) {
     //getting the DOM object of the tile being added
     const tile = document.getElementById(tiles_count[k])
-    console.log("tile is ", tiles_count[k])
+    //console.log("tile is ", tiles_count[k])
 
     //check to make sure you are not replacing text content of the mine
     if (tile.classList.contains("mine")) {
@@ -229,7 +236,7 @@ function explodeTiles(x, y) {
     distance(parseInt(recentTile[2]), parseInt(mainTile_Id[2])) < maxExplode
   ) {
     //this tile has not been dealth with
-    if (mainTile.textContent == "") {
+    if (mainTile.textContent != "💣") {
       mainTile.classList.remove("hidden")
     }
     explodedTiles.push(mainTile_Id)
@@ -248,36 +255,60 @@ function explodeTiles(x, y) {
 
 function showMines() {
   //shows all the mines on the board
-  console.log("showing mines")
+  //console.log("showing mines")
   const mines = document.querySelectorAll(".mine")
   mines.forEach((mine) => {
     mine.classList.remove("hidden")
   })
 }
 
-function addSecond() {
-  //adds 1 second to the timer
-  console.log("adding a second")
-  elapsedTime = elapsedTime + 1
-  const minute_timer = document.querySelector("#minute__timer")
-  const second_timer = document.querySelector("#second__timer")
-
-  let minutes = parseInt(minute_timer.textContent)
-  let seconds = parseInt(second_timer.textContent)
-  console.log(minute_timer, second_timer, minutes, seconds)
-  if (seconds > 60) {
-    minutes = minutes + 1
-    minute_timer.textContent = minutes
-    seconds = 0
-    second_timer.textContent = 0
-  } else {
-    if (seconds < 10) {
-      " 0" + seconds.toString()
-    }
-    seconds = seconds + 1
-    second_timer.textContent = seconds
+/* code that is completely stolen */
+function startTimer() {
+  if (stoptime == true) {
+    stoptime = false
+    timerCycle()
   }
 }
+function stopTimer() {
+  if (stoptime == false) {
+    stoptime = true
+  }
+}
+
+function timerCycle() {
+  if (stoptime == false) {
+    sec = parseInt(sec)
+    min = parseInt(min)
+    hr = parseInt(hr)
+
+    sec = sec + 1
+
+    if (sec == 60) {
+      min = min + 1
+      sec = 0
+    }
+    if (min == 60) {
+      hr = hr + 1
+      min = 0
+      sec = 0
+    }
+
+    if (sec < 10 || sec == 0) {
+      sec = "0" + sec
+    }
+    if (min < 10 || min == 0) {
+      min = "0" + min
+    }
+    if (hr < 10 || hr == 0) {
+      hr = "0" + hr
+    }
+
+    timer.innerHTML = hr + ":" + min + ":" + sec
+
+    setTimeout("timerCycle()", 1000)
+  }
+}
+/* code that is not stolen */
 
 //alternate functions usded for small calculations:---------
 function distance(a, b) {
@@ -292,7 +323,7 @@ function distance(a, b) {
 }
 function check_win() {
   //return true if all the tiles except the mines are uncovered
-  console.log("checking for win ....")
+  //console.log("checking for win ....")
   hidden = document.querySelectorAll(".hidden")
   mines = document.querySelectorAll(".mine")
   if (hidden.length == mines.length) {
