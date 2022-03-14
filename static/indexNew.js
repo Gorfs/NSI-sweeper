@@ -10,8 +10,8 @@ const game_box = document.querySelector(".game")
 const body = document.querySelector(".game-area")
 //the height and width of the minesweeper game in the number of tiles
 //for now the game will be locked at 9x9 squares
-const game_box_width = 10000
-const game_box_height = 10000
+const game_box_width = 9
+const game_box_height = 9
 //The probability that mines will spawn
 const mine_proba = 6
 let recentTile = ""
@@ -19,7 +19,7 @@ let explodedTiles = []
 const maxExplode = 2
 //elapsed time is counted in seconds
 let elapsedTime = 0
-let timer = false
+const timer = document.querySelector(".time")
 let clicked = false
 
 /* variables for the timer */
