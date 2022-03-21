@@ -120,3 +120,28 @@ body {
   transform: rotate(180deg);
   transform-origin: center;
 }
+
+.form__container {
+  background-color: rgba(48, 42, 42, 0.555);
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  text-align: center;
+  /* this is the bit to change with JS */
+  display: none;
+  /* end of bit done with JS */
+  justify-content: center;
+  align-items: center;
+}
+.form__smallContainer {
+  background-color: aliceblue;
+  border-radius: 20px;
+  width: 30vw;
+  height: fit-content;
+  padding-right: 2vw;
+  padding-left: 2vw;
+  padding-top: 2vw;
+  padding-bottom: 2vw;
+}

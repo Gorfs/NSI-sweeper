@@ -36,6 +36,8 @@ function win() {
   //need to put in place a timer that will end here:
 
   //extra styles for the lost need to go here:
+  const form = document.querySelector("form__container")
+  form.style["display"] = "flex"
 }
 
 function lose() {
