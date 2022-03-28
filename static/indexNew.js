@@ -39,9 +39,9 @@ function win() {
   //extra styles for the lost need to go here:
 
   //this is the section for the form timer
-  const formTime = document.querySelector(".form__scoreDisplay")
+  const formTime = document.querySelector("#timerScore")
   const formContainer = document.querySelector(".form__container")
-  formTime.textContent = timerCounter
+  formTime.value = timerCounter
   formContainer.style["display"] = "flex"
 }
 

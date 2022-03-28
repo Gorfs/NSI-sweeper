@@ -50,10 +50,23 @@
             <!-- this is the small container for the form -->
             <h1 class="form__title">Score sheet</h1>
 
-            <input type="text" placeholder="Name" />
+            <input
+              type="text"
+              placeholder="Name"
+              name="username"
+              id="username"
+            />
             <div class="form__scoreDisplay">
               <!-- here will be where the score is showed -->
-              TMP
+              <input
+                type="text"
+                name="timer"
+                id="timerScore"
+                placeholder="TMP"
+                class="form__score"
+                value="TMP"
+                readonly
+              />
             </div>
             <button type="submit">Submit</button>
           </div>

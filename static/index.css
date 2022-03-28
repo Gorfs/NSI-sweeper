@@ -145,3 +145,8 @@ body {
   padding-top: 2vw;
   padding-bottom: 2vw;
 }
+.form__score {
+  border: none;
+  background-color: transparent;
+  text-align: center;
+}

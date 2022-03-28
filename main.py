@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 
 
 app = Flask(__name__)
@@ -6,7 +6,9 @@ app = Flask(__name__)
 @app.route('/' , methods = ['POST', 'GET'])
 def index():
   if request.method == 'POST':
-    return request
+    form = request.form
+    print(form)
+    return redirect(request.url)
   else:
     return render_template("index.html")
 
