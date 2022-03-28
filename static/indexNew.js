@@ -20,6 +20,7 @@ const maxExplode = 2
 //elapsed time is counted in seconds
 let elapsedTime = 0
 const timer = document.querySelector(".time")
+let timerCounter = timer.textContent
 let clicked = false
 
 /* variables for the timer */
@@ -36,8 +37,12 @@ function win() {
   //need to put in place a timer that will end here:
 
   //extra styles for the lost need to go here:
-  const form = document.querySelector("form__container")
-  form.style["display"] = "flex"
+
+  //this is the section for the form timer
+  const formTime = document.querySelector(".form__scoreDisplay")
+  const formContainer = document.querySelector(".form__container")
+  formTime.textContent = timerCounter
+  formContainer.style["display"] = "flex"
 }
 
 function lose() {
@@ -75,6 +80,7 @@ function lose() {
     })
   })
   stopTimer()
+  win()
 }
 //need to put in place a timer that will end here:
 
@@ -306,6 +312,7 @@ function timerCycle() {
     }
 
     timer.innerHTML = hr + ":" + min + ":" + sec
+    timerCounter = hr + ":" + min + ":" + sec
 
     setTimeout("timerCycle()", 1000)
   }

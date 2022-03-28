@@ -1,15 +1,21 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/' , methods = ['POST', 'GET'])
 def index():
-  return render_template("index.html")
+  if request.method == 'POST':
+    return request
+  else:
+    return render_template("index.html")
 
-@app.route("/index.html")
+@app.route("/index.html", methods = ['POST', 'GET'])
 def index2():
-  return render_template("index.html")
+  if request.method == 'POST':
+    return request
+  else:
+    return render_template("index.html")
 
 #this is going to be the section about sql manipulation and how to put it into a website
 #todo make the input form for the html file, 
