@@ -4,7 +4,7 @@
     <!--head stuff-->
     <link
       rel="stylesheet"
-      href="../static/index.css"
+      href="{{ url_for('static', filename='index.css' )}}"
     />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -78,4 +78,4 @@
     </footer>
   </body>
 </html>
-<script src="../static/indexNew.js" defer></script>
+<script src="{{url_for('static' , filename='indexNew.js')}}" defer></script>
