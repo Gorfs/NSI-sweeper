@@ -15,8 +15,10 @@ const game_box_height = 9
 //The probability that mines will spawn
 const mine_proba = 6
 let recentTile = ""
+/* the tiles that have been exploded so far, /to avoid infinite recursion */
 let explodedTiles = []
-const maxExplode = 2
+/* the distance that the explode tiles function can explode to */
+const maxExplode = 3
 //elapsed time is counted in seconds
 let elapsedTime = 0
 const timer = document.querySelector(".time")
@@ -31,56 +33,12 @@ let stoptime = true
 
 //Here will be the functions for when a player wins and loses the game
 function win() {
-  body.style["background-color"] = "green"
-  alert("you have won, congrats")
-  stopTimer()
-  //need to put in place a timer that will end here:
-
-  //extra styles for the lost need to go here:
-
-  //this is the section for the form timer
-  const formTime = document.querySelector("#timerScore")
-  const formContainer = document.querySelector(".form__container")
-  formTime.value = timerCounter
-  formContainer.style["display"] = "flex"
+  return none
 }
 
 function lose() {
   //console.log("you have lost")
-  showMines()
-  body.classList.add("lost")
-  alert("you have lost")
-  const hidden = document.querySelectorAll(".hidden")
-  hidden.forEach((tile) => {
-    tile.removeEventListener("click", () => {
-      tile.classList.remove("hidden")
-      //the number of tiles total
-      let numTiles = game_box_height * game_box_width
-      const hidden = document.querySelectorAll(".hidden")
-
-      //sets the most recent Tile that has been pressed
-      recentTile = tile.id
-
-      if (check_win() == true) {
-        //the player has won the game
-        win()
-      } else if (tile.textContent == "💣") {
-        lose()
-      }
-
-      if (hidden.length == numTiles - 1) {
-        //the first click has been detected
-        //console.log("is the first click")
-        addMines(parseInt(tile.id[0]), parseInt(tile.id[2]))
-      }
-
-      if (tile.textContent == "") {
-        explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
-      }
-    })
-  })
-  stopTimer()
-  win()
+  return none
 }
 //need to put in place a timer that will end here:
 
@@ -143,10 +101,9 @@ function generateGame() {
         console.log("is the first click")
         addMines(parseInt(tile.id[0]), parseInt(tile.id[2]))
         startTimer()
-
-        if (tile.textContent == "") {
-          explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
-        }
+      }
+      if (tile.textContent == "") {
+        explodeTiles(tile.id[0], tile.id[2])
       }
     })
   })
@@ -235,28 +192,34 @@ function tilesToCount(x, y) {
 }
 
 function explodeTiles(x, y) {
-  //takes in two INTEGERS, recursively destroyes tiles that are around it
-  const mainTile_Id = x.toString() + "_" + y.toString()
-  const mainTile = document.getElementById(mainTile_Id)
+  /* complete redesign of this function */
+  const tile_id = x.toString() + "_" + y.toString()
+  const tile = document.getElementById(tile_id)
+  /* here is the DOM object for the tile we are checking */
+  console.log(explodedTiles, tile_id)
+  /* thing we need to check for, repeated uses, if it is a mine, if it is too far */
   if (
-    isIn(mainTile_Id, explodedTiles) == false &&
-    distance(parseInt(recentTile[0]), parseInt(mainTile_Id[0])) < maxExplode &&
-    distance(parseInt(recentTile[2]), parseInt(mainTile_Id[2])) < maxExplode
+    isIn(tile_id, explodedTiles) == false &&
+    tile.textContent != "💣" &&
+    distance(recentTile[0], tile_id[0]) < maxExplode &&
+    distance(recentTile[2], tile_id[2]) < maxExplode
   ) {
-    //this tile has not been dealth with
-    if (mainTile.textContent != "💣") {
-      mainTile.classList.remove("hidden")
-    }
-    explodedTiles.push(mainTile_Id)
-    surroudingTiles = tilesToCount(
-      parseInt(mainTile_Id[0]),
-      parseInt(mainTile_Id[2])
-    )
-    for (let k = 0; k < surroudingTiles.length; k++) {
-      explodeTiles(
-        parseInt(surroudingTiles[k][0]),
-        parseInt(surroudingTiles[k][2])
+    /* here we know that the tile has not been edited */
+    if (tile.textContent != "💣") {
+      /* no empty tiles for us */
+      tilesSurrounding = tilesToCount(
+        parseInt(tile_id[0]),
+        parseInt(tile_id[2])
       )
+      console.log(tilesSurrounding, "hi there")
+      tilesSurrounding.forEach(newTile, () => {
+        explodedTiles.push(tile)
+        console.log(explodedTiles)
+        explodeTiles(newTile[0], newTile[2])
+      })
+    } else if (tile.textContent == "") {
+      explodedTiles.push(tile)
+      explodedTiles(tile.id[0], tile.id[2])
     }
   }
 }

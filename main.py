@@ -6,8 +6,10 @@ app = Flask(__name__)
 @app.route('/' , methods = ['POST', 'GET'])
 def index():
   if request.method == 'POST':
+    print(request.method)
     form = request.form
     print(form)
+    return render_template("index.html")
     return redirect(request.url)
   else:
     return render_template("index.html")
@@ -15,7 +17,8 @@ def index():
 @app.route("/index.html", methods = ['POST', 'GET'])
 def index2():
   if request.method == 'POST':
-    return request
+    print(request.form)
+    return redirect(request.url)
   else:
     return render_template("index.html")
 
