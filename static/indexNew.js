@@ -350,4 +350,30 @@ function isIn(elmt, lst) {
   return false
 }
 
+function generateLeaderBoard(arr) {
+  /* the entered array is an array for arrays which have a name and a score value being the time */
+  const leaderBoard = document.querySelector("#leaderBoard")
+  /* making the loop for the amount of elmts in the array */
+  for (let i = 0; i < arr.length; i++) {
+    /* making the elmt that will be the line in the leaderboard area */
+    div = document.createElement("div")
+    div.classList.add("leaderBoard__line")
+    /* making the elements that will contain the info */
+    username = document.createElement("div")
+    username.classList.add("leaderBoard__elmt")
+    score = document.createElement("div")
+    score.ClassList.Add("leaderBoard__elmt")
+    /* adding the user name and score to the elements we created */
+    username.textContent = arr[i][0]
+    score.textContent = arr[i][0]
+    /* appending the content divs to the line divs */
+    div.appendChild(username)
+    div.appendChild(score)
+    /* appending the main div to leaderboard area */
+    leaderBoard.appendChild(div)
+  }
+}
+
+/* here is for when thomas finishes his shit */
+/* generateLeaderBoard(arrthing) */
 generateGame()

@@ -24,6 +24,13 @@ body {
   font-family: "Courier New", Courier, monospace;
 }
 /*this is the start of the ares where all the styles for the game is written*/
+.background {
+  background: url(images/background.jpg);
+  background-blend-mode: darken;
+  background-color: rgba(0, 0, 0, 0.459);
+  background-size: cover;
+  background-attachment: fixed;
+}
 .game-area {
   height: fit-content;
   padding-top: 5vw;
@@ -32,11 +39,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url(images/background.jpg);
-  background-blend-mode: darken;
-  background-color: rgba(0, 0, 0, 0.459);
-  background-size: cover;
-  background-attachment: fixed;
 }
 .game-container {
   width: 100%;
@@ -149,4 +151,33 @@ body {
   border: none;
   background-color: transparent;
   text-align: center;
+}
+/* here is where the styles for the leaderboard are going to go */
+.leader__BigContainer {
+  width: 100%;
+  height: fit-content;
+  padding-top: 2vw;
+  padding-left: 2vw;
+}
+.leaderBoard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  width: 30vw;
+}
+.leaderBoard__line {
+  background-color: azure;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  text-align: center;
+  border: 2px black solid;
+}
+.leaderBoard__elmt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 3px 3px 3px;
+  width: 100%;
 }
