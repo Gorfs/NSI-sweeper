@@ -80,7 +80,6 @@ function lose() {
     })
   })
   stopTimer()
-  win()
 }
 //need to put in place a timer that will end here:
 
@@ -238,25 +237,23 @@ function explodeTiles(x, y) {
   //takes in two INTEGERS, recursively destroyes tiles that are around it
   const mainTile_Id = x.toString() + "_" + y.toString()
   const mainTile = document.getElementById(mainTile_Id)
+  /* things to check, if the tile is empty
+  if the tile has been checked, 
+  if the tile is a mine */
   if (
-    isIn(mainTile_Id, explodedTiles) == false &&
-    distance(parseInt(recentTile[0]), parseInt(mainTile_Id[0])) < maxExplode &&
-    distance(parseInt(recentTile[2]), parseInt(mainTile_Id[2])) < maxExplode
+    mainTile.textContent != "💣" &&
+    distance(parceInt(recentTile[0]), parseint(mainTile_Id[0])) < maxExplode &&
+    distance(parceInt(recentTile[2]), parseint(mainTile_Id[2])) < maxExplode
   ) {
-    //this tile has not been dealth with
-    if (mainTile.textContent != "💣") {
+    /* the tile is empty, and has not been treated before */
+    explodedTiles.push(mainTile_Id)
+    if (mainTile.textContent == "") {
+      /* the tile is empty, has to be exploded */
       mainTile.classList.remove("hidden")
     }
-    explodedTiles.push(mainTile_Id)
-    surroudingTiles = tilesToCount(
-      parseInt(mainTile_Id[0]),
-      parseInt(mainTile_Id[2])
-    )
-    for (let k = 0; k < surroudingTiles.length; k++) {
-      explodeTiles(
-        parseInt(surroudingTiles[k][0]),
-        parseInt(surroudingTiles[k][2])
-      )
+    tilesAround = tilesToCount(parseInt(mainTile_id[0]), parseInt(mainTile[2]))
+    for (let i = 0; i < tilesAround.length; i++) {
+      explodeTiles(tilesAround[i][0], tilesAround[i][2])
     }
   }
 }
