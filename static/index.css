@@ -24,6 +24,13 @@ body {
   font-family: "Courier New", Courier, monospace;
 }
 /*this is the start of the ares where all the styles for the game is written*/
+.background {
+  background: url(images/background.jpg);
+  background-blend-mode: darken;
+  background-color: rgba(0, 0, 0, 0.459);
+  background-size: cover;
+  background-attachment: fixed;
+}
 .game-area {
   height: fit-content;
   padding-top: 5vw;
@@ -32,11 +39,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url(images/background.jpg);
-  background-blend-mode: darken;
-  background-color: rgba(0, 0, 0, 0.459);
-  background-size: cover;
-  background-attachment: fixed;
 }
 .game-container {
   width: 100%;
@@ -149,4 +151,15 @@ body {
   border: none;
   background-color: transparent;
   text-align: center;
+}
+
+.leaderBoardContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  /* some font shit */
+
+  /* end of font shit */
 }

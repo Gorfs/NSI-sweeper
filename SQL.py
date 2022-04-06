@@ -1,6 +1,15 @@
 from sqlite3 import *
 import os
 
+def findValues(form):
+  """ input -> resized form as you made it 
+      ouput -> a list of 2 elmt being the values
+  """
+  username = form.split("\'")[1]
+  print("username =" , username )
+  print("form is " ,form.split("\'"))
+  time = form.split("\'")[5]
+  return [username , time]
 
 def main():
   """
@@ -24,7 +33,7 @@ def create_connection(db_file):
   """
   connection = None
   try:
-    connection = connect(db_file)
+    connection = connect(db_file , check_same_thread=False)
   except Error as e:
     print(e)
   return connection
@@ -36,23 +45,27 @@ def insert_into_db(connection, form):
   form: string form requested in main.py
   return: inserts username and time retrieved from form into the connected database
   """
+  print(form)
+  form = str(form)
+  print(form , " now string")
+  print(type(form))
   if len(form) > 33:
-    resized_form = form[33:-4]
-    username = (resized_form.split("), ("))[0]
-    # time
-    hours, minutes, seconds= resized_form[-8:].split(":")
-    time = 3600 * int(hours) + 60 * int(minutes) + int(seconds)
+    values = findValues(form[33:-4])
+    print("username = " , values[0])
   else:
-    username = str(form)
-    time = 1
-  #print(resized_form, username, time)
+    print("form invalid")
+    return "form invalid"
 
   # insert into database
+  print(retrieve_all_from_db(connection))
   cursor = connection.cursor()
-  cursor.execute("CREATE TABLE IF NOT EXISTS global (username TEXT, time INT);")
+  cursor.execute("CREATE TABLE IF NOT EXISTS global (username TEXT, time TEXT);")
   connection.commit()
-  cursor.execute("INSERT INTO global VALUES (%s, %s);" %(username, time))
+  username = values[0]
+  time = values[1]
+  cursor.execute("INSERT INTO global(username, time) VALUES(" + "\"" +  str(username) + "\"" + " , " + "\"" + str(time) + "\"" + ");")
   connection.commit()
+  print(retrieve_all_from_db(connection))
 
 
 def retrieve_all_from_db(connection):
@@ -69,6 +82,7 @@ def retrieve_all_from_db(connection):
   for row in rows:
     data_dict[row[0]] = row[1]
   return data_dict
+
 
 def delete_all_from_db(connection):
   """
