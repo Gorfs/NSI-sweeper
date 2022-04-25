@@ -153,13 +153,48 @@ body {
   text-align: center;
 }
 
-.leaderBoardContainer {
+.leaderboard__container {
   display: flex;
   width: 100%;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
+  background-image: url(/static/images/leaderBoard_background.jpg);
+  min-height: 50vh;
+  background-size: cover;
+  background-attachment: fixed;
   /* some font shit */
 
   /* end of font shit */
+}
+.leaderboard__title {
+  font-size: 40px;
+  color: white;
+}
+.leaderboard__miniContainer {
+  background-color: white;
+  border-radius: 25px;
+  padding: 1.25vw;
+}
+.leaderboard__scoreContainer {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  background-color: white;
+  justify-content: space-evenly;
+}
+.score__nameContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+
+  justify-content: space-evenly;
+  text-align: right;
+}
+.score__timeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  text-align: left;
 }

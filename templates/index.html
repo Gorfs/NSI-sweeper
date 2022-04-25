@@ -78,6 +78,35 @@
           </div>
         </div>
       </form>
+      <div class="leaderboard__container">
+        {% block content %}
+        <div class="leaderboard__title">
+          <span class="">GAME LEADERBOARD</span>
+        </div>
+
+        <div class="leaderboard__miniContainer">
+          <div class="leaderboard">
+            <div class="leaderboard__legend">
+              <span class="">Player</span>
+              <span class="">Points</span>
+            </div>
+            <div class="leaderboard__scoreContainer">
+              <div class="score__nameContainer">
+              {% for score in scores %}
+                <div class="">{{ score[0] }}</div>
+              {% endfor %}
+            </div>
+              <div class="score__timeContainer">
+                {% for score in scores %}
+                <div class="">{{ score[1] }}</div>
+              {% endfor%}
+              </div>
+              </div>
+            </div>
+          </div>
+          {%- endblock %}
+        </div>
+      </div>
     </main>
     <footer>
       <!-- la partie en bas de la page, peutre prendre m'importe quelle place-->
