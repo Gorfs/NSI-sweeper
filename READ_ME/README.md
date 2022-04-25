@@ -8,5 +8,7 @@ description: Faire une page html qui a un jeu demineur qui est possible de joueu
 Faire un bot qui peut commencer a n'importe qu'elle point et resoudre le demineur
 
 TODO: -Faire le structure de la page
--ecrire le partie "beau" du css
--determiner les regles du bot anti-demineur
+-faire une page example pour le leader board
+-trouver comment faire une page avec les information qui vient de python(templates?)
+-convertir les log de google drive vers ce reademe.md\
+-recontinuer a developper la fonction explode tiles pour montrere les nombres
