@@ -169,32 +169,50 @@ body {
   /* end of font shit */
 }
 .leaderboard__title {
-  font-size: 40px;
+  font-size: 100px;
+  padding: 2px;
+  background-color: rgba(178, 55, 209, 0.678);
+  border-radius: 25px;
   color: white;
+  margin-top: 10vw;
+  margin-bottom: 2vw;
+  box-shadow: 5px 5px 0px 0px #289fed, 10px 10px 0px 0px #5fb8ff,
+    15px 15px 0px 0px #a1d8ff, 20px 20px 0px 0px #cae6ff,
+    25px 25px 0px 0px #e1eeff, 50px 5px 15px 5px rgba(0, 0, 0, 0);
 }
 .leaderboard__miniContainer {
-  background-color: white;
+  background-color: rgba(178, 55, 209, 0.678);
+  color: aliceblue;
   border-radius: 25px;
   padding: 1.25vw;
+  margin-bottom: 2vw;
+  font-size: 60px;
+  font-weight: 100;
+  box-shadow: 5px 5px 0px 0px #289fed, 10px 10px 0px 0px #5fb8ff,
+    15px 15px 0px 0px #a1d8ff, 20px 20px 0px 0px #cae6ff,
+    25px 25px 0px 0px #e1eeff, 50px 5px 15px 5px rgba(0, 0, 0, 0);
 }
 .leaderboard__scoreContainer {
   display: flex;
   flex-direction: row;
   height: 100%;
-  background-color: white;
+  background-color: transparent;
   justify-content: space-evenly;
+  margin-top: 2vw;
 }
 .score__nameContainer {
   display: flex;
   flex-direction: column;
-  padding: 5px;
+  font-size: 40px;
 
   justify-content: space-evenly;
   text-align: right;
+  margin-right: 2vw;
 }
 .score__timeContainer {
   display: flex;
   flex-direction: column;
+  font-size: 40px;
   justify-content: space-evenly;
   text-align: left;
 }

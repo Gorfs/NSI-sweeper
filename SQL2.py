@@ -1,7 +1,8 @@
-from distutils.log import error
+
 from sqlite3 import *
 import os
 
+#notes, Un truc qui marche bien c'est la base de donner stock les donnee en ordre croissant du score, donc on a pas besoin de les sort qui est pas mal
 class DB():
     def __init__(self, path:str) -> None:
         '''
@@ -87,9 +88,10 @@ class DB():
         self.connection.commit()
         print("All rows from %s were deleted\n" %self.connection)
     
-    def update_value(self, username:str, value:int) -> None:
+    def update_value(self, username:str, value:str) -> None:
         '''
         input -> the username and the value of the person of which to update the time of the score
+                 value is a string that represents time, must be under "HH:MM:SS" format
         output -> None
         desc -> updates a person's score in the database
 
@@ -97,9 +99,27 @@ class DB():
         '''
         try:
             cursor = self.connection.cursor()
-            cursor.execute("UPDATE SET time = {} WHERE username = {}".format(username, int))
+            command = "UPDATE global SET time = \"{}\" where username = \"{}\"".format(value, username)
+            print(command)
+            cursor.execute(command)
             self.connection.commit()
             print("updated the DB")
-        except :
-            print("error updating the value {} to {} time".format(username, value))
+        except Exception as exception :
+            print("error updating the value {} to {} time. {} error showed up".format(username, value, exception))
         return 'error code'
+
+
+    def delete_user(self, username:str) -> None:
+        '''
+        input -> username, string representing the user you want to delete from the leaderboard
+        output -> none
+        desc -> deletes a user's time from the database based on the username inputed in the parameter
+        '''
+        try:
+            cursor = self.connection.cursor()
+            command = "DELETE FROM global WHERE username = \"{}\"".format(username) 
+            cursor.execute(command)
+            self.connection.commit()
+        except Exception as exception:
+            print("error deleting the user form the database, {} error showed up ".format(exception))
+    
