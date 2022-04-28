@@ -1,38 +1,41 @@
+from distutils.log import error
 from sqlite3 import *
 import os
 
 class DB():
-    def __init__(self):
+    def __init__(self, path:str) -> None:
         '''
-        input -> None
+        input -> path to the database file
         output -> DB type object with multiple methodes
         desc -> makes a object to be used in other python files to interact with a database
                 Must use the create_connection() methode to start up the database and use the other methodes
         '''
         self.connection = None
         self.DB_name = "vault_13.db"
+        self.path = path
 
     
-    def create_conection(self):
+    def create_connection(self) -> None:
         '''
-        takes nothing and gets the connection for the database 
+        input -> takes the path to the database file
+        output -> Nothing unless error code
+        desc -> creates the connection to the database based on the path inputed in as parameter
+        includes some basic exception handeling
         '''
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        db_path = os.path.join(base_dir, self.DB_name)
         try:
-            self.connection = connect(db_path , check_same_thread=False)
+            self.connection = connect(self.path, check_same_thread=False)
         except Error:
             print("there was an error connecting to the database.")
             return "there was an error connection to the database"
 
 
-    def insert_into_db(self, form):
+    def insert_into_db(self, form:str) -> None:
         if self.connection == None:
             print("Connection not established, please make a connection with self.create_connection()")
         else:
             form = str(form)
             if len(form) > 33:
-                values = self.findValues(form[33:-4])
+                values = self.findValues(str(form[33:-4]))
             else:
                 print("form invalid")
                 return "form invalid"
@@ -44,7 +47,7 @@ class DB():
             cursor.execute("INSERT INTO global(username, time) VALUES(" + "\"" +  str(username) + "\"" + " , " + "\"" + str(time) + "\"" + ");")
             self.connection.commit()
 
-    def retrieve_all_from_db(self):
+    def retrieve_all_from_db(self) -> dict:
         """
         return: dictionary with username as keys and time (in seconds) as items
         """
@@ -62,19 +65,19 @@ class DB():
             return data_dict
 
     
-    def findValues(form):
+    def findValues(self, form:str) -> str:
         """ 
         input -> resized form as you made it 
         ouput -> a list of 2 elmt being the values
         desc -> does not interact with the database, just reformats a string into a list with the username and the password
         """
-        username = form.split("\'")[1]
+        username = str(form).split("\'")[1]
         print("username =" , username )
         print("form is " ,form.split("\'"))
         time = form.split("\'")[5]
         return [username , time]
 
-    def delete_all_from_db(self):
+    def delete_all_from_db(self) -> None:
         """
         return: deletes every row from 'global' of the connected database
         """
@@ -84,7 +87,7 @@ class DB():
         self.connection.commit()
         print("All rows from %s were deleted\n" %self.connection)
     
-    def update_value(username, value):
+    def update_value(self, username:str, value:int) -> None:
         '''
         input -> the username and the value of the person of which to update the time of the score
         output -> None
@@ -92,4 +95,11 @@ class DB():
 
         note -> not done, need to be made
         '''
-        pass
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute("UPDATE SET time = {} WHERE username = {}".format(username, int))
+            self.connection.commit()
+            print("updated the DB")
+        except :
+            print("error updating the value {} to {} time".format(username, value))
+        return 'error code'

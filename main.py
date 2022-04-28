@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from SQL import *
+from SQL2 import DB
 import os  # for path of the database
 
 
@@ -38,12 +38,12 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         print("AHA YOU POST REQUEST SCUM, PREPARE TO DIE")
-        insert_into_db(connection, request.form)
-        print(retrieve_all_from_db(connection))
+        DB.insert_into_db(request.form)
+        print(DB.retrieve_all_from_db())
         return redirect(request.url)
     else:
         print("leaderboard has been asked")
-        leaderboard = LeaderBoard(retrieve_all_from_db(create_connection("vault_13.db")))
+        leaderboard = LeaderBoard(DB.retrieve_all_from_db())
         print("the scores are {}".format(leaderboard.get_scores()))
         return render_template("index.html", scores=leaderboard.get_scores())
 
@@ -52,11 +52,11 @@ def index():
 def index2():
     if request.method == 'POST':
         print("The request was a post and thus was the reply with the form")
-        insert_into_db(connection, request.form)
+        DB.insert_into_db(request.form)
         return redirect(request.url)
     else:
         print("leaderboard has been asked")
-        leaderboard = LeaderBoard(retrieve_all_from_db(create_connection("vault_13.db")))
+        leaderboard = LeaderBoard(DB.retrieve_all_from_db())
         print("the scores are {}".format(leaderboard.get_scores()))
         return render_template("index.html", scores=leaderboard.get_scores())
 
@@ -64,7 +64,7 @@ def index2():
 @app.route("/leaderboard.html", methods=['GET'])
 def leaderboard() -> None:
     print("leaderboard has been asked")
-    leaderboard = LeaderBoard(retrieve_all_from_db(create_connection("vault_13.db")))
+    leaderboard = LeaderBoard(DB.retrieve_all_from_db())
     print("the scores are {}".format(leaderboard.get_scores()))
     return render_template("index.html", scores=leaderboard.get_scores())
 
@@ -87,7 +87,8 @@ if __name__ == "__main__":
     # base stuff
     base_dir = os.path.dirname(os.path.abspath(__file__))
     db_path = os.path.join(base_dir, "vault_13.db")
-    connection = create_connection(db_path)
+    DB = DB(db_path)
+    DB.create_connection()
     # base stuff end----
 
 
