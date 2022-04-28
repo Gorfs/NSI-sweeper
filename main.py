@@ -81,10 +81,6 @@ def leaderboard() -> None:
 # donc il faut trouver comment le mettre dans le render template.
 
 
-def makeLeaderBoard(data):
-    """ this is to genereate the html code for the leaderboard """
-    # leaderBoard is goign to be 2 columns with name and score
-    print(data)
 
 
 if __name__ == "__main__":
@@ -93,7 +89,7 @@ if __name__ == "__main__":
     db_path = os.path.join(base_dir, "vault_13.db")
     connection = create_connection(db_path)
     # base stuff end----
-    leaderBoard = makeLeaderBoard(retrieve_all_from_db(connection))
+
 
     app.run(debug=True)
 
