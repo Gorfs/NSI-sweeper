@@ -66,7 +66,7 @@ class DB():
             return data_dict
 
     
-    def findValues(self, form:str) -> str:
+    def findValues(self, form:str) -> list:
         """ 
         input -> resized form as you made it 
         ouput -> a list of 2 elmt being the values
@@ -95,15 +95,12 @@ class DB():
         output -> None
         desc -> updates a person's score in the database
 
-        note -> not done, need to be made
         '''
         try:
             cursor = self.connection.cursor()
             command = "UPDATE global SET time = \"{}\" where username = \"{}\"".format(value, username)
-            print(command)
             cursor.execute(command)
             self.connection.commit()
-            print("updated the DB")
         except Exception as exception :
             print("error updating the value {} to {} time. {} error showed up".format(username, value, exception))
         return 'error code'

@@ -31,7 +31,7 @@ let stoptime = true
 
 //Here will be the functions for when a player wins and loses the game
 function win() {
-  body.style["background-color"] = "green"
+  body.classList.add("won")
   alert("you have won, congrats")
   stopTimer()
   //need to put in place a timer that will end here:
@@ -80,6 +80,7 @@ function lose() {
     })
   })
   stopTimer()
+  win()
 }
 //need to put in place a timer that will end here:
 

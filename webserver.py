@@ -47,7 +47,13 @@ class Webserver:
         the home page, also checks for form entries for posting to the database
         '''
         if request.method == 'POST': #the user has posted a form
-            DB.insert_into_db(request.form)
+            print(DB.findValues(str(request.form)[33:-4])[0])
+            if DB.findValues(str(request.form)[33:-4])[0] in list(DB.retrieve_all_from_db()):
+                print("Name already in the database, updating the value" ,DB.findValues(str(request.form)[33:-4])[0]),DB.findValues(DB.findValues(str(request.form)[33:-4])[1] )
+                DB.update_value(DB.findValues(str(request.form)[33:-4])[0]) , DB.findValues(DB.findValues(str(request.form)[33:-4])[1])
+            else:
+                print("user not in the database, adding them in")
+                DB.insert_into_db(request.form)
             return redirect(request.url) #automatically redirects to the minesweeper page
 
         else: # the user has just asked the normal minesweeper page

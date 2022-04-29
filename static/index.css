@@ -81,7 +81,11 @@ body {
   color: transparent;
 }
 .lost {
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.527);
+  background-blend-mode: darken;
+}
+.won {
+  background-color: #289eed71;
   background-blend-mode: darken;
 }
 /*this is the end of the section for the minesweeper itself*/
