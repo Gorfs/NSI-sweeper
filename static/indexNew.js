@@ -80,7 +80,6 @@ function lose() {
     })
   })
   stopTimer()
-  win()
 }
 //need to put in place a timer that will end here:
 
@@ -143,10 +142,10 @@ function generateGame() {
         console.log("is the first click")
         addMines(parseInt(tile.id[0]), parseInt(tile.id[2]))
         startTimer()
-
-        if (tile.textContent == "") {
-          explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
-        }
+      }
+      if (tile.textContent == "") {
+        console.log("Trying to explode some tiles")
+        explodeTiles(parseInt(tile.id[0]), parseInt(tile.id[2]))
       }
     })
   })
@@ -235,19 +234,18 @@ function tilesToCount(x, y) {
 }
 
 function explodeTiles(x, y) {
-  //takes in two INTEGERS, recursively destroyes tiles that are around it
+  //takes in two INTEGERS, recursively destroyes tiles that are around it if they are empty
   const mainTile_Id = x.toString() + "_" + y.toString()
   const mainTile = document.getElementById(mainTile_Id)
-  if (
-    isIn(mainTile_Id, explodedTiles) == false &&
-    distance(parseInt(recentTile[0]), parseInt(mainTile_Id[0])) < maxExplode &&
-    distance(parseInt(recentTile[2]), parseInt(mainTile_Id[2])) < maxExplode
-  ) {
+  //if the function has been called then the tile has to be removed
+  if (mainTile.textContent != "💣") {
+    mainTile.classList.remove("hidden")
+  }
+
+  if (mainTile.textContent == "" && isIn(mainTile_Id, explodedTiles) == false) {
+    console.log("function has been called for expldoding moretiles")
     //this tile has not been dealth with
-    if (mainTile.textContent != "💣") {
-      mainTile.classList.remove("hidden")
-    }
-    explodedTiles.push(mainTile_Id)
+    explodedTiles.push(mainTile.id)
     surroudingTiles = tilesToCount(
       parseInt(mainTile_Id[0]),
       parseInt(mainTile_Id[2])
