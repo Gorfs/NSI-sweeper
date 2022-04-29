@@ -13,6 +13,96 @@ TODO: -Faire le structure de la page
 -convertir les log de google drive vers ce reademe.md\
 -recontinuer a developper la fonction explode tiles pour montrere les nombres
 
+- continuer le sommaire du code
+- finir le fichier SQL2
+- mettre en place le system de admin panel pour modifier la table sql
+- mettre en place de profil
+- mettre en place de la detection de nom deja 
+
+# Somaire du Code
+
+## main.py
+
+Class Score:
+
+un sous classe de Leaderboard, fais pour contenir les informations du username et du temps pour faire le demineur
+
+Class LeaderBoard:
+
+une classe qui represente le leaderboard en lui meme, contien une methode pour retourner tous les valeur du leaderboard sous forme d'une liste de liste
+
+Script Flask:
+
+du script qui est le corpus du webserver en lui meme, c'est ce code qui rejet les DOMs vers le naviguateurs.
+
+si la methode de la demande http est du forme POST alors sa prend les infos du form et l'envoir vers la base de donnee
+
+Executions du code:
+
+execute le code et done commencer de traiter les requetes http.
+
+
+
+## SQL.py
+
+findValues()
+
+Prend une le from depuis une query http et renvoie les donner de la form qui est l'username et le mdp
+
+main()
+
+commence une connection avec la base de donne
+
+create_connection()
+
+trouve le ficher ou se trouve la base de donner et renvoie une connection que sqlite peux  utiliser
+
+insert_into_db()
+
+si la form est correct renvoie le resultat de findValues() dans la base de donner
+
+retreive All from DB()
+
+renvoie tous les donner de la base de donne sour form de dictionaire
+
+delete_all_from_db()
+
+supprime tous depuis la base de donner
+
+## Index.JS
+
+declaration de constantes et de variables utililser dans le code 
+
+win()
+
+est appeler des que une reussite du joueur est detecter, trigger un fond vert et l'apparition du form
+
+lose()
+
+est appeler si le joueur appuis sur une bombe. trigger un fond rouge
+
+generateGame()
+
+la fonction principale qui genere le jeux, cree le cube, rajoute une bouton a chaque cube et detect le premier click
+
+addMines()
+
+la fonction qui genere des mines toute autour de joueur sauf sur la case qui est placer dans les parametre, est appeler hors de GenerateGame() pour evite que le joueur perd sans pouvoir jouer meme
+
+count_mines()
+
+renvoie le nombre de mines qui sont present sur le jeux
+
+tilesToCount()
+
+prend les coordonnee du cube et renvoie les cubes qui sont autours dans une liste, est necessaire pour evite des tiles qui n'existent pas
+
+
+
+explodeMind()
+
+show 
+
 **Lundi 28/03** 
 
 *Objectif:*
