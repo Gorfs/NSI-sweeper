@@ -234,6 +234,7 @@ function tilesToCount(x, y) {
 }
 
 function explodeTiles(x, y) {
+  console.log(explodedTiles)
   //takes in two INTEGERS, recursively destroyes tiles that are around it if they are empty
   const mainTile_Id = x.toString() + "_" + y.toString()
   const mainTile = document.getElementById(mainTile_Id)
@@ -242,19 +243,44 @@ function explodeTiles(x, y) {
     mainTile.classList.remove("hidden")
   }
 
+  // this is the main thing
   if (mainTile.textContent == "" && isIn(mainTile_Id, explodedTiles) == false) {
-    console.log("function has been called for expldoding moretiles")
+    //console.log("We are going again for some recursive shit")
     //this tile has not been dealth with
     explodedTiles.push(mainTile.id)
-    surroudingTiles = tilesToCount(
-      parseInt(mainTile_Id[0]),
-      parseInt(mainTile_Id[2])
-    )
-    for (let k = 0; k < surroudingTiles.length; k++) {
-      explodeTiles(
-        parseInt(surroudingTiles[k][0]),
-        parseInt(surroudingTiles[k][2])
+    for (
+      let k = 0;
+      k <
+      tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2])).length;
+      k++
+    ) {
+      let secondaryTile_id =
+        tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2]))[k][0] +
+        "_" +
+        tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2]))[k][2]
+      let secondaryTile = document.getElementById(secondaryTile_id)
+      console.log(
+        mainTile_Id,
+        " has to explode ",
+        tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2])),
+        " but is on ",
+        tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2]))[k]
       )
+      secondaryTile.classList.remove("hidden")
+      if (secondaryTile.textContent == "") {
+        explodeTiles(
+          parseInt(
+            tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2]))[
+              k
+            ][0]
+          ),
+          parseInt(
+            tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2]))[
+              k
+            ][2]
+          )
+        )
+      }
     }
   }
 }

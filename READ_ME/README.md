@@ -7,19 +7,17 @@ personnes: Archie Beales, Francois Thomas, Hartman Quentin
 description: Faire une page html qui a un jeu demineur qui est possible de joueur,
 Faire un bot qui peut commencer a n'importe qu'elle point et resoudre le demineur
 
-TODO: -Faire le structure de la page
--faire une page example pour le leader board
--trouver comment faire une page avec les information qui vient de python(templates?)
--convertir les log de google drive vers ce reademe.md\
--recontinuer a developper la fonction explode tiles pour montrere les nombres
+TODO: 29 avril
 
-- continuer le sommaire du code
-- finir le fichier SQL2
-- mettre en place le system de admin panel pour modifier la table sql
-- mettre en place de profil
-- mettre en place de la detection de nom deja 
+- Finir sommarie du code
+- faire le plan des diapo pour la presentation
+- Finir la fonction explode Tiles
+- faire que le premier click explode plein de Tiles pour aider
+- faire des ID pour chaque utilisateur, dans la DB
+- faire une page de profile
+- mettre en place du anti dupe pour envoyer les noms des joueurs vers la DB
 
-# Somaire du Code
+Somaire du Code
 
 ## main.py
 
