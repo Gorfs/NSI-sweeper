@@ -13,10 +13,10 @@ const body = document.querySelector(".game-area")
 const game_box_width = 9
 const game_box_height = 9
 //The probability that mines will spawn
-const mine_proba = 6
+const mine_proba = 4
 let recentTile = ""
 let explodedTiles = []
-const maxExplode = 2
+const maxExplode = 1
 //elapsed time is counted in seconds
 let elapsedTime = 0
 const timer = document.querySelector(".time")
@@ -158,8 +158,21 @@ function addMines(x, y) {
   const tiles = document.querySelectorAll(".tile")
   const noTouchId = x.toString() + "_" + y.toString()
   tiles.forEach((tile) => {
-    if (tile.id != noTouchId) {
+    console.log(
+      "tile id",
+      tile.id,
+      "versus ",
+      noTouchId[0],
+      noTouchId[2],
+      distance(parseInt(tile.id[0]), parseInt(noTouchId[0]))
+    )
+    if (
+      tile.id != noTouchId &&
+      distance(parseInt(tile.id[0]), parseInt(noTouchId[0])) > maxExplode &&
+      distance(parseInt(tile.id[2]), parseInt(noTouchId[2])) > maxExplode
+    ) {
       // can generate mines
+      console.log("generating some mines")
       randomNum = Math.round(Math.random() * mine_proba)
       if (randomNum == 1) {
         tile.textContent = "💣"
@@ -235,7 +248,7 @@ function tilesToCount(x, y) {
 }
 
 function explodeTiles(x, y) {
-  console.log(explodedTiles)
+  //console.log(explodedTiles)
   //takes in two INTEGERS, recursively destroyes tiles that are around it if they are empty
   const mainTile_Id = x.toString() + "_" + y.toString()
   const mainTile = document.getElementById(mainTile_Id)
@@ -246,8 +259,6 @@ function explodeTiles(x, y) {
 
   // this is the main thing
   if (mainTile.textContent == "" && isIn(mainTile_Id, explodedTiles) == false) {
-    //console.log("We are going again for some recursive shit")
-    //this tile has not been dealth with
     explodedTiles.push(mainTile.id)
     for (
       let k = 0;
@@ -260,13 +271,6 @@ function explodeTiles(x, y) {
         "_" +
         tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2]))[k][2]
       let secondaryTile = document.getElementById(secondaryTile_id)
-      console.log(
-        mainTile_Id,
-        " has to explode ",
-        tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2])),
-        " but is on ",
-        tilesToCount(parseInt(mainTile_Id[0]), parseInt(mainTile_Id[2]))[k]
-      )
       secondaryTile.classList.remove("hidden")
       if (secondaryTile.textContent == "") {
         explodeTiles(
