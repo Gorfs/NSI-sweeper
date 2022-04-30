@@ -7,9 +7,6 @@ app  =  Flask(__name__)
 
 
 
-
-
-
 class Webserver:
     def __init__(self):
         '''
@@ -33,12 +30,22 @@ class Webserver:
         # starts serving http requests
         app.run(debug=True)
 
-    @app.route('/')   # if the users asks for no page at all
+    @app.route('/',  methods=['POST', 'GET'])   # if the users asks for no page at all
     def index() -> render_template:
         '''
         if the user asks for no page it will redirect to the minesweeper page
-        '''
-        return render_template("index.html", scores=LeaderBoard(DB.retrieve_all_from_db()).get_scores())
+    '''
+        if request.method == 'POST': #the user has posted a form
+            print(DB.findValues(str(request.form)[33:-4])[0])
+            if DB.findValues(str(request.form)[33:-4])[0] in list(DB.retrieve_all_from_db()):
+                print("Name already in the database, updating the value" ,DB.findValues(str(request.form)[33:-4])[0], DB.findValues(str(request.form)[33:-4])[1])
+                DB.update_value( DB.findValues(str(request.form)[33:-4])[0] , DB.findValues(str(request.form)[33:-4])[1])
+            else:
+                print("user not in the database, adding them in")
+                DB.insert_into_db(request.form)
+            return redirect(request.url) #automatically redirects to the minesweeper page
+        else:
+            return render_template("index.html", scores=LeaderBoard(DB.retrieve_all_from_db()).get_scores())
 
 
     @app.route("/index.html", methods=['POST', 'GET'])
@@ -49,15 +56,22 @@ class Webserver:
         if request.method == 'POST': #the user has posted a form
             print(DB.findValues(str(request.form)[33:-4])[0])
             if DB.findValues(str(request.form)[33:-4])[0] in list(DB.retrieve_all_from_db()):
-                print("Name already in the database, updating the value" ,DB.findValues(str(request.form)[33:-4])[0]),DB.findValues(DB.findValues(str(request.form)[33:-4])[1] )
-                DB.update_value(DB.findValues(str(request.form)[33:-4])[0]) , DB.findValues(DB.findValues(str(request.form)[33:-4])[1])
+                print("Name already in the database, updating the value" ,DB.findValues(str(request.form)[33:-4])[0], DB.findValues(str(request.form)[33:-4])[1])
+                DB.update_value( DB.findValues(str(request.form)[33:-4])[0] , DB.findValues(str(request.form)[33:-4])[1])
             else:
                 print("user not in the database, adding them in")
                 DB.insert_into_db(request.form)
             return redirect(request.url) #automatically redirects to the minesweeper page
-
-        else: # the user has just asked the normal minesweeper page
+        else:
             return render_template("index.html", scores=LeaderBoard(DB.retrieve_all_from_db()).get_scores())
+
+    @app.route("/destroy")
+    def destroy()-> None:
+        '''
+        when a user asks for this url it destroys everthing in the database
+        '''
+        DB.delete_all_from_db()
+        return "you deleted it all you MONSTER"
 
         
 

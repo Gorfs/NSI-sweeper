@@ -73,8 +73,6 @@ class DB():
         desc -> does not interact with the database, just reformats a string into a list with the username and the password
         """
         username = str(form).split("\'")[1]
-        print("username =" , username )
-        print("form is " ,form.split("\'"))
         time = form.split("\'")[5]
         return [username , time]
 
