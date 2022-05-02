@@ -101,6 +101,5 @@ class LeaderBoard:
         returns the scores that were stored in the database in the form of a list of dictionary objects
         """
         if len(self.scores) == 0:
-            return "leaderboard empty"
-        else:
-            return self.scores
+            self.scores.append(["leaderboard" , "empty"])
+        return self.scores
