@@ -39,8 +39,6 @@ Executions du code:
 
 execute le code et done commencer de traiter les requetes http.
 
-
-
 ## SQL.py
 
 findValues()
@@ -53,7 +51,7 @@ commence une connection avec la base de donne
 
 create_connection()
 
-trouve le ficher ou se trouve la base de donner et renvoie une connection que sqlite peux  utiliser
+trouve le ficher ou se trouve la base de donner et renvoie une connection que sqlite peux utiliser
 
 insert_into_db()
 
@@ -69,7 +67,7 @@ supprime tous depuis la base de donner
 
 ## Index.JS
 
-declaration de constantes et de variables utililser dans le code 
+declaration de constantes et de variables utililser dans le code
 
 win()
 
@@ -95,44 +93,42 @@ tilesToCount()
 
 prend les coordonnee du cube et renvoie les cubes qui sont autours dans une liste, est necessaire pour evite des tiles qui n'existent pas
 
-
-
 explodeMind()
 
-show 
+show
 
-**Lundi 28/03** 
+**Lundi 28/03**
 
-*Objectif:*
+_Objectif:_
 
 Faire lien form avec BDD avec programme python?
 
-Interface création profile + BDD pour profilé et lien avec form.réalité:	
+Interface création profile + BDD pour profilé et lien avec form.réalité:
 
--réussite de test web server sur un pc hors que ceux du lycée	
+-réussite de test web server sur un pc hors que ceux du lycée
 
-- réussite de mettre en place le form html pour les scores	
-- - réussite de recevoire ces score dans le fichier python	
-  - - reussite de commit la base de données et création de la premiere tables	
-    -  echec de commencer le bot selenium -création du fichier python pour interaction avec la BDD
+- réussite de mettre en place le form html pour les scores
+- - réussite de recevoire ces score dans le fichier python
+  - - reussite de commit la base de données et création de la premiere tables
+    - echec de commencer le bot selenium -création du fichier python pour interaction avec la BDD
 
 **Lundi 04/04**
 
-*Objectif:*	
+_Objectif:_
 
--cree le leaderboard	
+-cree le leaderboard
 
--modifier la fonction explode tiles pour faire les nombre (redesign)	
+-modifier la fonction explode tiles pour faire les nombre (redesign)
 
--remplir le fichier python pour la base de donnée	
+-remplir le fichier python pour la base de donnée
 
 -rajouter la possibilter de flag les tuiles
 
-*realiter:*	
+_realiter:_
 
--quentin a apris ce que c’est une XPATH,	
+-quentin a apris ce que c’est une XPATH,
 
--quentin a fais un bot qui ouvre firefox, et CLICK	
+-quentin a fais un bot qui ouvre firefox, et CLICK
 
 -quenting a appris ce que c’est une document xml
 
@@ -145,3 +141,9 @@ Interface création profile + BDD pour profilé et lien avec form.réalité:
 -continuation du travaille sur la fonction explode_tiles
 
 -le bot demineur peut maintenant choisir quelle cube il veut clicker dessus
+quentin, -le fonctionement de selenium, pour que le code python peut traiter les pages web
+-comment l’algo du bot marche.
+
+Thomas: -Le SQL
+fonction de liberation des cases
+Archie: - Le Webserver Flask
