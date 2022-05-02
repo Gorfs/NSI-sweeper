@@ -21,11 +21,11 @@ body {
   height: 100%;
 }
 .banner__desc {
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Roboto Mono";
 }
 /*this is the start of the ares where all the styles for the game is written*/
 .background {
-  background: url(images/background.jpg);
+  background: url(/static/images/background.jpg);
   background-blend-mode: darken;
   background-color: rgba(0, 0, 0, 0.459);
   background-size: cover;
@@ -164,7 +164,7 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-image: url(/static/images/leaderBoard_background.jpg);
+  background-image: url(/static/images/background.jpeg);
   min-height: 50vh;
   background-size: cover;
   background-attachment: fixed;
