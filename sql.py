@@ -2,9 +2,13 @@
 from sqlite3 import *
 import os
 
-#notes, Un truc qui marche bien c'est la base de donner stock les donnee en ordre croissant du score, donc on a pas besoin de les sort qui est pas mal
+# notes, Un truc qui marche bien c'est la base de donner stock les donnee
+# en ordre croissant du score, donc on a pas besoin de les sort qui est
+# pas mal
+
+
 class DB():
-    def __init__(self, path:str) -> None:
+    def __init__(self, path: str) -> None:
         '''
         input -> path to the database file
         output -> DB type object with multiple methodes
@@ -15,7 +19,6 @@ class DB():
         self.DB_name = "vault_13.db"
         self.path = path
 
-    
     def create_connection(self) -> None:
         '''
         input -> takes the path to the database file
@@ -29,10 +32,10 @@ class DB():
             print("there was an error connecting to the database.")
             return "there was an error connection to the database"
 
-
-    def insert_into_db(self, form:str) -> None:
-        if self.connection == None:
-            print("Connection not established, please make a connection with self.create_connection()")
+    def insert_into_db(self, form: str) -> None:
+        if self.connection is None:
+            print(
+                "Connection not established, please make a connection with self.create_connection()")
         else:
             form = str(form)
             if len(form) > 33:
@@ -41,19 +44,30 @@ class DB():
                 print("form invalid")
                 return "form invalid"
             cursor = self.connection.cursor()
-            cursor.execute("CREATE TABLE IF NOT EXISTS global (username TEXT, time TEXT);")
+            cursor.execute(
+                "CREATE TABLE IF NOT EXISTS global (username TEXT, time TEXT);")
             self.connection.commit()
             username = values[0]
             time = values[1]
-            cursor.execute("INSERT INTO global(username, time) VALUES(" + "\"" +  str(username) + "\"" + " , " + "\"" + str(time) + "\"" + ");")
+            cursor.execute(
+                "INSERT INTO global(username, time) VALUES(" +
+                "\"" +
+                str(username) +
+                "\"" +
+                " , " +
+                "\"" +
+                str(time) +
+                "\"" +
+                ");")
             self.connection.commit()
 
     def retrieve_all_from_db(self) -> dict:
         """
         return: dictionary with username as keys and time (in seconds) as items
         """
-        if self.connection == None:
-            print("Connection not established, please make a connection with self.create_connection()")
+        if self.connection is None:
+            print(
+                "Connection not established, please make a connection with self.create_connection()")
         else:
             data_dict = {}
 
@@ -65,16 +79,15 @@ class DB():
                 data_dict[row[0]] = row[1]
             return data_dict
 
-    
-    def findValues(self, form:str) -> list:
-        """ 
-        input -> resized form as you made it 
+    def find_values(self, form: str) -> list:
+        """
+        input -> resized form as you made it
         ouput -> a list of 2 elmt being the values
         desc -> does not interact with the database, just reformats a string into a list with the username and the password
         """
         username = str(form).split("\'")[1]
         time = form.split("\'")[5]
-        return [username , time]
+        return [username, time]
 
     def delete_all_from_db(self) -> None:
         """
@@ -84,9 +97,9 @@ class DB():
         cursor = self.connection.cursor()
         cursor.execute("DELETE FROM global;")
         self.connection.commit()
-        print("All rows from %s were deleted\n" %self.connection)
-    
-    def update_value(self, username:str, value:str) -> None:
+        print("All rows from %s were deleted\n" % self.connection)
+
+    def update_value(self, username: str, value: str) -> None:
         '''
         input -> the username and the value of the person of which to update the time of the score
                  value is a string that represents time, must be under "HH:MM:SS" format
@@ -96,15 +109,17 @@ class DB():
         '''
         try:
             cursor = self.connection.cursor()
-            command = "UPDATE global SET time = \"{}\" where username = \"{}\"".format(value, username)
+            command = "UPDATE global SET time = \"{}\" where username = \"{}\"".format(
+                value, username)
             cursor.execute(command)
             self.connection.commit()
-        except Exception as exception :
-            print("error updating the value {} to {} time. {} error showed up".format(username, value, exception))
+        except Exception as exception:
+            print(
+                "error updating the value {} to {} time. {} error showed up".format(
+                    username, value, exception))
         return 'error code'
 
-
-    def delete_user(self, username:str) -> None:
+    def delete_user(self, username: str) -> None:
         '''
         input -> username, string representing the user you want to delete from the leaderboard
         output -> none
@@ -112,9 +127,10 @@ class DB():
         '''
         try:
             cursor = self.connection.cursor()
-            command = "DELETE FROM global WHERE username = \"{}\"".format(username) 
+            command = "DELETE FROM global WHERE username = \"{}\"".format(
+                username)
             cursor.execute(command)
             self.connection.commit()
         except Exception as exception:
-            print("error deleting the user form the database, {} error showed up ".format(exception))
-    
+            print("error deleting the user form the database, {} error showed up ".format(
+                exception))
