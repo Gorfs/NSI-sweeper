@@ -4,10 +4,11 @@ body {
   margin-left: 0px;
   margin-right: 0px;
   margin-bottom: 0px;
+  font-family: "Roboto Mono", monospace;
 }
 
 .banner {
-  font-family: "Slackey", cursive;
+  font-size: 1vw;
   background-color: rgba(22, 19, 19, 0.849);
   color: white;
   display: flex;
@@ -20,9 +21,7 @@ body {
   flex-direction: column;
   height: 100%;
 }
-.banner__desc {
-  font-family: "Roboto Mono";
-}
+
 /*this is the start of the ares where all the styles for the game is written*/
 .background {
   background: url(/static/images/background.jpg);
@@ -118,7 +117,6 @@ body {
 .time {
   margin-left: 20vw;
   font-size: 2vw;
-  font-family: "Slackey", cursive;
   display: flex;
   flex-direction: row;
 }
@@ -164,10 +162,10 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  background-image: url(/static/images/background.jpeg);
+  background-image: url(/static/images/leaderboard_background.png);
   min-height: 50vh;
   background-size: cover;
-  background-attachment: fixed;
+  background-attachment: scroll;
   /* some font shit */
 
   /* end of font shit */

@@ -7,12 +7,14 @@
       href="{{ url_for('static', filename='index.css' )}}"
     />
 
+    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Slackey&display=swap"
-      rel="stylesheet"
-    />
+    href="https://fonts.googleapis.com/css2?family=Slackey&display=swap"
+    rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap">
   </head>
   <body>
     <!-- ici on doit faire le structure-->
@@ -36,10 +38,11 @@
                 <a href="index.html" class="">
                   <img
                     class="reset__btn"
-                    src="https://img.icons8.com/fluency/60/000000/recurring-appointment.png"
+                    src="/static/images/refresh.png"
+                    width="50vw"
                   />
                 </a>
-                <div class="time">time : 00:00 .</div>
+                <div class="time">time : 00:00</div>
               </div>
             </div>
           </div>
@@ -81,7 +84,7 @@
       <div class="leaderboard__container">
         {% block content %}
         <div class="leaderboard__title">
-          <span class="">GAME LEADERBOARD</span>
+          <span class="">Game Leaderboard</span>
         </div>
 
         <div class="leaderboard__miniContainer">
