@@ -38,11 +38,14 @@ class DB():
                 "Connection not established, please make a connection with self.create_connection()")
         else:
             form = str(form)
-            if len(form) > 33:
-                values = self.findValues(str(form[33:-4]))
-            else:
-                print("form invalid")
-                return "form invalid"
+            try:
+                if len(form) > 33:
+                    values = self.find_values(str(form[33:-4]))
+                else:
+                    print("form invalid")
+                    return "form invalid"
+            except Exception as error:
+                print("there was an error using the find_values function the eror was ", error)
             cursor = self.connection.cursor()
             cursor.execute(
                 "CREATE TABLE IF NOT EXISTS global (username TEXT, time TEXT);")
