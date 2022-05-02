@@ -71,7 +71,7 @@ class Webserver:
         when a user asks for this url it destroys everthing in the database
         '''
         DB.delete_all_from_db()
-        return "you deleted it all you MONSTER"
+        return "You destroyed it all"
 
         
 

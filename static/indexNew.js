@@ -13,7 +13,7 @@ const body = document.querySelector(".game-area")
 const game_box_width = 9
 const game_box_height = 9
 //The probability that mines will spawn
-const mine_proba = 4
+const mine_proba = 3
 let recentTile = ""
 let explodedTiles = []
 const maxExplode = 1
