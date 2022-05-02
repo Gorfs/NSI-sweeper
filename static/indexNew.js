@@ -63,9 +63,9 @@ function lose() {
 
       if (check_win() == true) {
         //the player has won the game
-        win()
+        //win()
       } else if (tile.textContent == "💣") {
-        lose()
+        //lose()
       }
 
       if (hidden.length == numTiles - 1) {
