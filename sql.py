@@ -77,6 +77,10 @@ class DB():
 
             # retrieve data
             cursor = self.connection.cursor()
+            cursor.execute(
+                "CREATE TABLE IF NOT EXISTS global (username TEXT, time TEXT);")
+            self.connection.commit()
+
             # returns only the first 20 rows
             cursor.execute("SELECT * FROM global ORDER BY time LIMIT 20;")
             rows = cursor.fetchall()
