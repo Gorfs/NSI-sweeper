@@ -45,7 +45,8 @@ class DB():
                     print("form invalid")
                     return "form invalid"
             except Exception as error:
-                print("there was an error using the find_values function the eror was ", error)
+                print(
+                    "there was an error using the find_values function the eror was ", error)
             cursor = self.connection.cursor()
             cursor.execute(
                 "CREATE TABLE IF NOT EXISTS global (username TEXT, time TEXT);")
@@ -76,7 +77,8 @@ class DB():
 
             # retrieve data
             cursor = self.connection.cursor()
-            cursor.execute("SELECT * FROM global ORDER BY time;")
+            # returns only the first 20 rows
+            cursor.execute("SELECT * FROM global ORDER BY time LIMIT 20;")
             rows = cursor.fetchall()
             for row in rows:
                 data_dict[row[0]] = row[1]
